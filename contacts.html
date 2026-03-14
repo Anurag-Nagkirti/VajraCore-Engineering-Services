@@ -3,260 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us | VajraCore Engineering Services</title>
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  <title>Contact Us | VajraCore Engineering</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary-color: #ff2e63; 
-      --secondary-color: #08d9d6;
-      --bg-dark: #0a0b10;
-      --glass-bg: rgba(255, 255, 255, 0.02);
-      --header-bg: rgba(10, 11, 16, 0.96);
-      --input-bg: rgba(255, 255, 255, 0.03);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      margin: 0;
-      padding-top: 100px;
-      background: var(--bg-dark);
-      color: #cbd5e1;
-      overflow-x: hidden;
-    }
-
-    /* --- LOADER --- */
-    #loader-wrapper {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #0a0b10;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.6s ease-out, visibility 0.6s;
-    }
-    .loader-finished { opacity: 0; visibility: hidden; }
-
-    #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.4; }
-
-    /* --- SHARED HEADER --- */
-    header {
-      background: var(--header-bg);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 6%;
-      position: fixed;
-      top: 0; left: 0; width: 100%;
-      z-index: 1000;
-      height: 100px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; }
-    .logo-text h1 { margin: 0; font-size: 19px; font-weight: 800; letter-spacing: 1px; line-height: 1.1; text-transform: uppercase; }
-    .brand-white { color: #fff; }
-    .brand-accent { color: var(--primary-color); }
-    .logo-text p { margin: 4px 0 0 0; font-size: 9px; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
-
-    nav { display: flex; align-items: center; gap: 30px; }
-    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 11px; font-weight: 700; transition: 0.3s; text-transform: uppercase; letter-spacing: 1.5px; }
-    nav a:hover { color: var(--secondary-color); }
-    .btn-download { background: var(--primary-color); padding: 12px 22px; border-radius: 4px; color: #fff !important; font-size: 11px; font-weight: 800; }
-
-    .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
-    .menu-toggle span { width: 28px; height: 2px; background: #fff; }
-
-    /* --- CONTENT --- */
-    .main-container { max-width: 1200px; margin: 0 auto; padding: 60px 6% 100px; }
+    :root { --gold: #D4AF37; --bg: #0a0b10; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #cbd5e1; margin: 0; padding-top: 100px; }
+    header { background: rgba(10, 11, 16, 0.98); display: flex; justify-content: space-between; align-items: center; padding: 0 6%; position: fixed; top: 0; width: 100%; height: 100px; border-bottom: 1px solid rgba(212, 175, 55, 0.1); z-index: 1000; box-sizing: border-box; }
     
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.5fr;
-      gap: 40px;
-    }
+    .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; color: #fff; text-transform: uppercase; }
+    .logo-text h1 span { color: var(--gold); }
+    .logo-text p { margin: 2px 0 0 0; font-size: 8px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
 
-    .contact-info {
-      padding: 40px;
-      background: var(--glass-bg);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 8px;
-    }
+    .contact-container { max-width: 1200px; margin: 0 auto; padding: 60px 6%; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+    .info-box h2 { color: #fff; text-transform: uppercase; }
+    .info-box h2 span { color: var(--gold); }
+    
+    .contact-form { background: rgba(255,255,255,0.02); padding: 40px; border: 1px solid rgba(212, 175, 55, 0.1); }
+    input, textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(212, 175, 55, 0.2); padding: 15px; color: #fff; margin-bottom: 20px; border-radius: 2px; }
+    button { background: var(--gold); color: #000; border: none; padding: 15px 30px; font-weight: 800; text-transform: uppercase; cursor: pointer; width: 100%; }
 
-    .contact-info h2 { color: #fff; text-transform: uppercase; margin-top: 0; font-size: 22px; }
-    .info-item { margin-bottom: 30px; }
-    .info-item h4 { color: var(--secondary-color); text-transform: uppercase; font-size: 12px; margin-bottom: 8px; letter-spacing: 1px; }
-    .info-item p { margin: 0; font-size: 16px; color: #cbd5e1; }
-
-    .contact-form {
-      padding: 40px;
-      background: var(--glass-bg);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 8px;
-    }
-
-    .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; font-size: 11px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; color: #64748b; }
-    .form-group input, .form-group textarea {
-      width: 100%;
-      background: var(--input-bg);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 15px;
-      color: #fff;
-      border-radius: 4px;
-      font-family: inherit;
-      transition: 0.3s;
-    }
-    .form-group input:focus, .form-group textarea:focus {
-      outline: none;
-      border-color: var(--secondary-color);
-      background: rgba(255,255,255,0.05);
-    }
-
-    .submit-btn {
-      background: var(--primary-color);
-      color: #fff;
-      border: none;
-      padding: 15px 40px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
-      border-radius: 4px;
-      width: 100%;
-      transition: 0.3s;
-    }
-    .submit-btn:hover { background: #e62053; transform: translateY(-2px); }
-
-    .map-section { margin-top: 40px; border-radius: 8px; overflow: hidden; height: 350px; border: 1px solid rgba(255,255,255,0.05); }
-
-    footer { background: #000; padding: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
-    footer p { font-size: 11px; color: #444; text-transform: uppercase; letter-spacing: 2px; }
-
-    /* --- RESPONSIVENESS --- */
-    @media (max-width: 900px) {
-      header { height: 85px; }
-      .menu-toggle { display: flex; }
-      nav {
-        position: fixed; top: 85px; left: -100%; width: 100%; height: calc(100vh - 85px);
-        background: var(--header-bg); flex-direction: column; justify-content: center; gap: 30px; transition: 0.4s;
-      }
-      nav.active { left: 0; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .contact-info { order: 2; }
+    @media (max-width: 800px) {
+      .contact-container { grid-template-columns: 1fr; }
+      header { height: 80px; }
     }
   </style>
 </head>
 <body>
-
-<div id="loader-wrapper"><div style="color:white; font-weight:800; letter-spacing:5px;">VAJRACORE</div></div>
-<canvas id="bgCanvas"></canvas>
-
 <header>
-  <div class="logo-section" onclick="window.location.href='index.html'">
-    <div class="logo-text">
-      <h1><span class="brand-white">VAJRACORE</span> <span class="brand-accent">ENGINEERING</span></h1>
-      <p>Precision Industrial Services</p>
-    </div>
+  <div class="logo-text">
+    <h1>VAJRACORE <span>ENGINEERING</span></h1>
+    <p>Engineering Services Pvt. Ltd.</p>
   </div>
-  <div class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></div>
-  <nav id="nav-list">
-    <a href="index.html">Home</a>
-    <a href="services.html">Services</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="contacts.html" style="color: var(--primary-color);">Contacts</a>
-    <a href="career.html">Career</a>
-    <a href="brochure.pdf" class="btn-download" download>Brochure</a>
+  <nav style="display: flex; gap: 20px;">
+    <a href="index.html" style="color: #fff; text-decoration: none; font-size: 11px; font-weight: 700; text-transform: uppercase;">Home</a>
+    <a href="contacts.html" style="color: var(--gold); text-decoration: none; font-size: 11px; font-weight: 700; text-transform: uppercase;">Contacts</a>
   </nav>
 </header>
 
-<div class="main-container">
-  <div class="contact-grid">
-    <div class="contact-info">
-      <h2>Contact <span>Details</span></h2>
-      <div class="info-item">
-        <h4>Our Office</h4>
-        <p>Pune, Maharashtra, India<br>Serving Charholi, Wadmukhwadi & Kalyani Nagar</p>
-      </div>
-      <div class="info-item">
-        <h4>Call Us</h4>
-        <p>+91 99750 82204</p>
-      </div>
-      <div class="info-item">
-        <h4>Email Us</h4>
-        <p>info@vajracore.com</p>
-      </div>
-      <div class="info-item">
-        <h4>Working Hours</h4>
-        <p>Mon - Sat: 9:00 AM - 7:00 PM</p>
-      </div>
-    </div>
-
-    <div class="contact-form">
-      <h2>Send a <span>Message</span></h2>
-      <form action="#" method="POST">
-        <div class="form-group">
-          <label>Full Name</label>
-          <input type="text" placeholder="Enter your name" required>
-        </div>
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" placeholder="Enter your email" required>
-        </div>
-        <div class="form-group">
-          <label>Service Required</label>
-          <input type="text" placeholder="e.g. Core Cutting, MEP Maintenance">
-        </div>
-        <div class="form-group">
-          <label>Your Message</label>
-          <textarea rows="5" placeholder="Tell us about your project requirements"></textarea>
-        </div>
-        <button type="submit" class="submit-btn">Send Inquiry</button>
-      </form>
-    </div>
+<div class="contact-container">
+  <div class="info-box">
+    <h2>Get in <span>Touch</span></h2>
+    <p><strong>Location:</strong> Pune, Maharashtra</p>
+    <p><strong>Phone:</strong> +91 99750 82204</p>
+    <p><strong>Email:</strong> info@vajracore.com</p>
   </div>
-
-  <div class="map-section">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d121059.04712330752!2d73.78056586326176!3d18.524870634289523!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf2e67461101%3A0x828d43100dd3f51!2sPune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1709450000000!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  <div class="contact-form">
+    <input type="text" placeholder="Your Name">
+    <input type="email" placeholder="Email Address">
+    <textarea rows="5" placeholder="Project Details"></textarea>
+    <button>Send Message</button>
   </div>
 </div>
-
-<footer>
-  <p>&copy; 2026 VajraCore Engineering Services | Precision. Integrity. Innovation.</p>
-</footer>
-
-<script>
-  const menuToggle = document.getElementById('mobile-menu');
-  const navList = document.getElementById('nav-list');
-  menuToggle.addEventListener('click', () => { navList.classList.toggle('active'); });
-
-  window.addEventListener('load', () => {
-    setTimeout(() => { document.getElementById('loader-wrapper').classList.add('loader-finished'); }, 800);
-  });
-
-  // Background Particles
-  const canvas = document.getElementById('bgCanvas'); const ctx = canvas.getContext('2d');
-  let particles = [];
-  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-  window.addEventListener('resize', resize); resize();
-  for (let i = 0; i < 40; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.2, vy: (Math.random()-0.5)*0.2 });
-  function draw() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0 || p.x > canvas.width) p.vx *= -1; if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-      ctx.beginPath(); ctx.arc(p.x, p.y, 1, 0, Math.PI*2); ctx.fillStyle = 'rgba(8, 217, 214, 0.2)'; ctx.fill();
-    });
-    requestAnimationFrame(draw);
-  }
-  draw();
-</script>
 </body>
 </html>
