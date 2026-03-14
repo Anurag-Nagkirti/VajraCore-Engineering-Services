@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Gallery - Contiknight Engineers</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #e94560;
+      --secondary-color: #4dbae2;
+      --bg-dark: #0b0c10;
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --header-bg: rgba(11, 12, 16, 0.92);
+      --accent-gradient: linear-gradient(135deg, #e94560 0%, #4dbae2 100%);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      padding-top: 120px;
+      background: var(--bg-dark);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* --- PREMIUM LOADING SCREEN --- */
+    #loader-wrapper {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #0b0c10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.8s ease-out, visibility 0.8s;
+    }
+    .loader-logo {
+      width: 80px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 15px rgba(233, 69, 96, 0.5));
+      animation: pulse 2s infinite ease-in-out;
+    }
+    .loader-bar { width: 200px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; position: relative; }
+    .loader-progress { width: 0%; height: 100%; background: var(--accent-gradient); position: absolute; animation: loadProgress 2s forwards cubic-bezier(0, 0.55, 0.45, 1); }
+    @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
+    @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
+    .loader-finished { opacity: 0; visibility: hidden; }
+
+    #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+    /* --- CONSISTENT HEADER --- */
+    header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5%;
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      z-index: 1000;
+      height: 95px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+    .logo-section img { height: 60px; filter: drop-shadow(0 0 10px rgba(233, 69, 96, 0.4)); }
+    .logo-text h1 { margin: 0; font-size: 24px; font-weight: 800; }
+    .brand-white { color: #fff; }
+    .brand-gradient { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .logo-text p { margin: 4px 0 0 0; font-size: 11px; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+
+    /* --- NAVIGATION & MOBILE MENU --- */
+    nav { display: flex; align-items: center; gap: 20px; }
+    nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+    nav a:hover { color: var(--secondary-color); }
+
+    .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+    .menu-toggle span { width: 25px; height: 3px; background: #fff; border-radius: 2px; transition: 0.3s; }
+
+    /* --- FILTER SYSTEM --- */
+    .filter-container { text-align: center; margin-bottom: 50px; padding: 0 5%; }
+    .filter-btn {
+      background: var(--glass-bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      padding: 12px 25px;
+      margin: 5px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+    .filter-btn:hover { border-color: var(--secondary-color); background: rgba(77, 186, 226, 0.1); }
+    .filter-btn.active { background: var(--accent-gradient); border: none; box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4); }
+
+    /* --- GALLERY GRID --- */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      padding: 0 8% 100px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 3/2;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: 0.4s ease;
+    }
+    .gallery-item.hide { display: none; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
+    .gallery-item:hover img { transform: scale(1.1); }
+
+    .overlay {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; padding: 20px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+      opacity: 0;
+      transition: 0.4s ease;
+    }
+    .gallery-item:hover .overlay { opacity: 1; }
+    .overlay h3 { font-size: 18px; margin: 0; color: #fff; }
+    .overlay p { font-size: 12px; color: var(--secondary-color); text-transform: uppercase; margin: 5px 0 0; }
+
+    footer { background: #000; padding: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+
+    /* --- RESPONSIVE ADJUSTMENTS --- */
+    @media (max-width: 900px) {
+      body { padding-top: 95px; }
+      .menu-toggle { display: flex; }
+      nav {
+        position: fixed;
+        top: 95px; left: -100%;
+        width: 100%; height: calc(100vh - 95px);
+        background: var(--header-bg);
+        backdrop-filter: blur(25px);
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 40px 0;
+        gap: 25px;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 999;
+      }
+      nav.active { left: 0; }
+      .logo-text h1 { font-size: 18px; }
+      .logo-text p { display: none; }
+      .logo-section img { height: 45px; }
+      .filter-container h2 { font-size: 28px !important; }
+      .gallery-grid { grid-template-columns: 1fr; padding: 0 5% 50px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loader-wrapper">
+  <img src="images/logo.png" class="loader-logo" alt="Contiknight Engineers">
+  <div class="loader-bar">
+    <div class="loader-progress"></div>
+  </div>
+  <p style="font-size: 10px; letter-spacing: 3px; margin-top: 15px; color: var(--secondary-color); font-weight: 800;">INITIALIZING SYSTEMS</p>
+</div>
+
+<canvas id="bgCanvas"></canvas>
+
+<header>
+  <div class="logo-section" onclick="window.location.href='index.html'">
+    <img src="images/logo.png" alt="Contiknight Engineers Logo">
+    <div class="logo-text">
+      <h1><span class="brand-white">CONTIKNIGHT</span> <span class="brand-gradient">ENGINEERS</span></h1>
+      <p>The Synchronized Core of Modern Living</p>
+    </div>
+  </div>
+  <div class="menu-toggle" id="mobile-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <nav id="nav-list">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="gallery.html" style="color: var(--secondary-color);">Gallery</a>
+    <a href="contacts.html">Contacts</a>
+    <a href="career.html">Career</a>
+  </nav>
+</header>
+
+<div class="filter-container">
+  <h2 style="font-size: 40px; margin-bottom: 20px;">Project Showcase</h2>
+  <button class="filter-btn active" data-filter="all">All Projects</button>
+  <button class="filter-btn" data-filter="plumbing">Plumbing</button>
+  <button class="filter-btn" data-filter="electrical">Electrical</button>
+  <button class="filter-btn" data-filter="mechanical">Mechanical</button>
+</div>
+
+<div class="gallery-grid">
+  <div class="gallery-item" data-category="plumbing">
+    <img src="images/plumbing1.png" alt="High Pressure Pipeline">
+    <div class="overlay">
+      <h3>Smart Pipeline Installation</h3>
+      <p>Industrial Plumbing</p>
+    </div>
+  </div>
+
+  <div class="gallery-item" data-category="electrical">
+    <img src="images/electrical1.jpg" alt="Panel Board Installation">
+    <div class="overlay">
+      <h3>Main Control Panel</h3>
+      <p>Electrical Engineering</p>
+    </div>
+  </div>
+
+  <div class="gallery-item" data-category="mechanical">
+    <img src="images/mechanical1.jpg" alt="Industrial Fabrication">
+    <div class="overlay">
+      <h3>Structural Fabrication</h3>
+      <p>Mechanical Services</p>
+    </div>
+  </div>
+
+  <div class="gallery-item" data-category="plumbing">
+    <img src="images/plumbing2.jpg" alt="Water Management System">
+    <div class="overlay">
+      <h3>Modern Water Grid</h3>
+      <p>Commercial Plumbing</p>
+    </div>
+  </div>
+
+  <div class="gallery-item" data-category="mechanical">
+    <img src="images/project2.jpeg" alt="Precision Welding">
+    <div class="overlay">
+      <h3>Precision TIG Welding</h3>
+      <p>Custom Fabrication</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 Contiknight Engineers | Showcasing Excellence in Every Joint and Wire</p>
+</footer>
+
+<script>
+  // MOBILE MENU
+  const menuToggle = document.getElementById('mobile-menu');
+  const navList = document.getElementById('nav-list');
+  menuToggle.addEventListener('click', () => navList.classList.toggle('active'));
+
+  // LOADING SCREEN
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('loader-wrapper');
+    setTimeout(() => { loader.classList.add('loader-finished'); }, 1800);
+  });
+
+  /* --- FILTER LOGIC --- */
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const galleryItems = document.querySelectorAll('.gallery-item');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      const filterValue = button.getAttribute('data-filter');
+      galleryItems.forEach(item => {
+        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+          item.classList.remove('hide');
+        } else {
+          item.classList.add('hide');
+        }
+      });
+      // Close mobile menu if filter is clicked
+      if (window.innerWidth <= 900) navList.classList.remove('active');
+    });
+  });
+
+  /* --- PARTICLE BACKGROUND --- */
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  for (let i = 0; i < 80; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      radius: Math.random() * 1.5 + 1
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(77,186,226,0.2)';
+      ctx.fill();
+    });
+
+    ctx.strokeStyle = 'rgba(77,186,226,0.06)';
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        let dx = particles[i].x - particles[j].x;
+        let dy = particles[i].y - particles[j].y;
+        let dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 150) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function update() {
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    });
+  }
+
+  function loop() { update(); draw(); requestAnimationFrame(loop); }
+  loop();
+</script>
+
+</body>
+</html>
