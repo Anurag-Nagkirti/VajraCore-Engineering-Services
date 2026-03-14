@@ -1,27 +1,73 @@
-<style>
-  .job-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 30px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-  .job-info h3 { margin: 0; color: #fff; font-size: 18px; }
-  .job-info p { font-size: 12px; color: #64748b; margin: 5px 0 0; }
-  .btn-apply { border: 1px solid var(--primary-color); color: var(--primary-color); padding: 10px 20px; text-decoration: none; font-size: 12px; font-weight: 700; }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Careers | VajraCore Engineering</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --gold: #D4AF37; --white: #ffffff; --bg: #0a0b10; --border: rgba(212, 175, 55, 0.15); }
+    * { box-sizing: border-box; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #cbd5e1; margin: 0; padding-top: 100px; }
+    
+    header { background: rgba(10, 11, 16, 0.98); backdrop-filter: blur(20px); display: flex; justify-content: space-between; align-items: center; padding: 0 6%; position: fixed; top: 0; width: 100%; height: 100px; border-bottom: 1px solid var(--border); z-index: 1000; }
+    .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; color: var(--white); text-transform: uppercase; line-height: 1; }
+    .logo-text h1 span { color: var(--gold); }
+    .logo-text p { margin: 5px 0 0 0; font-size: 8px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
 
-<div class="container">
-  <h2>Join the Team</h2>
-  <p>Building a future in industrial engineering? We are looking for talent.</p>
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 11px; font-weight: 700; margin-left: 30px; text-transform: uppercase; }
+    nav a:hover { color: var(--gold); }
+
+    .main-container { max-width: 1200px; margin: 0 auto; padding: 60px 6%; }
+    h2 { color: var(--white); text-transform: uppercase; letter-spacing: 2px; }
+    h2 span { color: var(--gold); }
+
+    .job-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 30px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+    .job-card:hover { border-color: var(--gold); background: rgba(212, 175, 55, 0.02); }
+    .job-info h3 { color: var(--gold); margin: 0 0 10px 0; text-transform: uppercase; font-size: 18px; }
+    .btn-apply { border: 1px solid var(--gold); padding: 10px 20px; color: var(--gold); text-decoration: none; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    .btn-apply:hover { background: var(--gold); color: #000; }
+
+    @media (max-width: 768px) {
+      header { height: 80px; }
+      .job-card { flex-direction: column; align-items: flex-start; gap: 20px; }
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo-text">
+    <h1>VAJRACORE <span>ENGINEERING</span></h1>
+    <p>Strength Through Precision</p>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="career.html" style="color: var(--gold);">Career</a>
+    <a href="contacts.html">Contacts</a>
+  </nav>
+</header>
+
+<div class="main-container">
+  <h2>Join Our <span>Technical Team</span></h2>
+  <p>Build your career with Maharashtra's leading industrial service provider.</p>
   
   <div class="job-card">
     <div class="job-info">
-      <h3>Senior MEP Engineer</h3>
-      <p>Pune, MH | Full-Time | 5+ Years Exp.</p>
+      <h3>MEP Site Supervisor</h3>
+      <p>Location: Pune | Experience: 3-5 Years</p>
     </div>
-    <a href="mailto:careers@vajra.com" class="btn-apply">Apply Now</a>
+    <a href="mailto:careers@vajracore.com" class="btn-apply">Apply Now</a>
   </div>
 
   <div class="job-card">
     <div class="job-info">
-      <h3>Site Technician (Core Cutting)</h3>
-      <p>On-Site | 2+ Years Exp.</p>
+      <h3>Senior Core Cutting Technician</h3>
+      <p>Location: Pune | Experience: 2+ Years</p>
     </div>
-    <a href="mailto:careers@vajra.com" class="btn-apply">Apply Now</a>
+    <a href="mailto:careers@vajracore.com" class="btn-apply">Apply Now</a>
   </div>
 </div>
+</body>
+</html>

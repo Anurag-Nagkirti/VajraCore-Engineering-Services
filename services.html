@@ -3,55 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us | VajraCore Engineering</title>
+  <title>Services | VajraCore Engineering</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --gold: #D4AF37; --bg: #0a0b10; }
+    :root { --gold: #D4AF37; --white: #ffffff; --bg: #0a0b10; --border: rgba(212, 175, 55, 0.15); }
+    * { box-sizing: border-box; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #cbd5e1; margin: 0; padding-top: 100px; }
-    header { background: rgba(10, 11, 16, 0.98); display: flex; justify-content: space-between; align-items: center; padding: 0 6%; position: fixed; top: 0; width: 100%; height: 100px; border-bottom: 1px solid rgba(212, 175, 55, 0.1); z-index: 1000; box-sizing: border-box; }
     
-    .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; color: #fff; text-transform: uppercase; }
+    header { background: rgba(10, 11, 16, 0.98); display: flex; justify-content: space-between; align-items: center; padding: 0 6%; position: fixed; top: 0; width: 100%; height: 100px; border-bottom: 1px solid var(--border); z-index: 1000; }
+    .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; color: var(--white); text-transform: uppercase; line-height: 1; }
     .logo-text h1 span { color: var(--gold); }
-    .logo-text p { margin: 2px 0 0 0; font-size: 8px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+    .logo-text p { margin: 5px 0 0 0; font-size: 8px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
 
-    .contact-container { max-width: 1200px; margin: 0 auto; padding: 60px 6%; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
-    .info-box h2 { color: #fff; text-transform: uppercase; }
-    .info-box h2 span { color: var(--gold); }
-    
-    .contact-form { background: rgba(255,255,255,0.02); padding: 40px; border: 1px solid rgba(212, 175, 55, 0.1); }
-    input, textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(212, 175, 55, 0.2); padding: 15px; color: #fff; margin-bottom: 20px; border-radius: 2px; }
-    button { background: var(--gold); color: #000; border: none; padding: 15px 30px; font-weight: 800; text-transform: uppercase; cursor: pointer; width: 100%; }
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 11px; font-weight: 700; margin-left: 30px; text-transform: uppercase; }
+    nav a:hover { color: var(--gold); }
 
-    @media (max-width: 800px) {
-      .contact-container { grid-template-columns: 1fr; }
+    .main-container { max-width: 1200px; margin: 0 auto; padding: 60px 6%; }
+    h2 { color: var(--white); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 50px; }
+    h2 span { color: var(--gold); }
+
+    .service-section { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: center; }
+    .service-section.reverse { direction: rtl; }
+    .service-section.reverse .text-content { direction: ltr; }
+
+    .text-content h3 { color: var(--gold); font-size: 24px; text-transform: uppercase; margin-top: 0; }
+    .service-img { width: 100%; height: 350px; background: #1a1b22; border: 1px solid var(--border); object-fit: cover; transition: 0.4s; }
+    .service-img:hover { border-color: var(--gold); }
+
+    @media (max-width: 850px) {
       header { height: 80px; }
+      .service-section, .service-section.reverse { grid-template-columns: 1fr; }
+      .service-img { height: 250px; }
+      nav { display: none; }
     }
   </style>
 </head>
 <body>
 <header>
-  <div class="logo-text">
-    <h1>VAJRACORE <span>ENGINEERING</span></h1>
-    <p>Engineering Services Pvt. Ltd.</p>
+  <div class="logo-section">
+    <div class="logo-text">
+      <h1>VAJRACORE <span>ENGINEERING</span></h1>
+      <p>Strength Through Precision</p>
+    </div>
   </div>
-  <nav style="display: flex; gap: 20px;">
-    <a href="index.html" style="color: #fff; text-decoration: none; font-size: 11px; font-weight: 700; text-transform: uppercase;">Home</a>
-    <a href="contacts.html" style="color: var(--gold); text-decoration: none; font-size: 11px; font-weight: 700; text-transform: uppercase;">Contacts</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="services.html" style="color: var(--gold);">Services</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contacts.html">Contacts</a>
   </nav>
 </header>
 
-<div class="contact-container">
-  <div class="info-box">
-    <h2>Get in <span>Touch</span></h2>
-    <p><strong>Location:</strong> Pune, Maharashtra</p>
-    <p><strong>Phone:</strong> +91 99750 82204</p>
-    <p><strong>Email:</strong> info@vajracore.com</p>
+<div class="main-container">
+  <h2>Our <span>Core Expertise</span></h2>
+
+  <div class="service-section">
+    <div class="text-content">
+      <h3>RCC Core Cutting</h3>
+      <p>We provide professional diamond core drilling services ranging from 25mm to 500mm diameter. Our methodology ensures vibration-free execution, preserving the structural integrity of your building.</p>
+      <ul style="list-style: none; padding: 0; color: #94a3b8;">
+        <li><span style="color:var(--gold)">✔</span> Precise Wall Sawing</li>
+        <li><span style="color:var(--gold)">✔</span> Deep Hole Stitch Drilling</li>
+      </ul>
+    </div>
+    <img src="images/service_core.jpg" class="service-img" alt="Core Cutting">
   </div>
-  <div class="contact-form">
-    <input type="text" placeholder="Your Name">
-    <input type="email" placeholder="Email Address">
-    <textarea rows="5" placeholder="Project Details"></textarea>
-    <button>Send Message</button>
+
+  <div class="service-section reverse">
+    <div class="text-content">
+      <h3>Industrial Chemical Cleaning</h3>
+      <p>Specialized de-scaling services for critical industrial components. We restore the efficiency of heat exchangers, boilers, and cooling towers using eco-safe chemical processes.</p>
+    </div>
+    <img src="images/service_chem.jpg" class="service-img" alt="Chemical Cleaning">
   </div>
 </div>
 </body>
