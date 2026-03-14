@@ -3,65 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Services - VajraCore Engineering</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <title>Services | Vajra Engineering Service</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root { --primary: #ff2e63; --secondary: #08d9d6; --bg: #0f1016; --card: rgba(255, 255, 255, 0.03); --text: #e0e0e0; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); padding-top: 100px; }
+    :root { --primary-color: #d4af37; --bg-dark: #08090a; --header-bg: rgba(8, 9, 10, 0.98); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding-top: 110px; background: var(--bg-dark); color: #cbd5e1; }
     
-    header { height: 80px; display: flex; justify-content: space-between; align-items: center; padding: 0 5%; background: rgba(15, 16, 22, 0.9); position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .logo { font-size: 22px; font-weight: 800; }
-    .logo span { color: var(--primary); }
-    nav a { color: var(--text); text-decoration: none; margin-left: 20px; font-size: 13px; font-weight: 600; text-transform: uppercase; }
+    /* --- HEADER (Matches Index) --- */
+    header { background: var(--header-bg); backdrop-filter: blur(20px); display: flex; justify-content: space-between; align-items: center; padding: 0 6%; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; height: 90px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+    .logo-text h1 { margin: 0; font-size: 19px; font-weight: 800; text-transform: uppercase; color: #fff; }
+    .logo-text h1 span { color: var(--primary-color); }
+    nav { display: flex; gap: 25px; }
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 11px; font-weight: 700; text-transform: uppercase; }
 
-    .container { max-width: 1100px; margin: 0 auto; padding: 40px 5%; }
-    .title { text-align: center; margin-bottom: 60px; }
-    .title h1 { font-size: 3rem; margin-bottom: 10px; }
-
-    .service-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 40px; margin-bottom: 40px; }
-    .service-card h2 { color: var(--secondary); margin-bottom: 20px; font-size: 24px; }
-    .service-card ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    .service-card li::before { content: "•"; color: var(--primary); margin-right: 10px; font-weight: bold; }
-    
-    @media (max-width: 768px) { .service-card ul { grid-template-columns: 1fr; } }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 6% 100px; }
+    .service-detail-card { background: rgba(255,255,255,0.02); padding: 50px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 40px; }
+    h2 { color: var(--primary-color); text-transform: uppercase; font-size: 24px; border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 15px; }
+    .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
+    ul { list-style: none; padding: 0; }
+    li { margin-bottom: 12px; font-size: 14px; display: flex; gap: 10px; }
+    li::before { content: '→'; color: var(--primary-color); }
   </style>
 </head>
 <body>
+
 <header>
-  <div class="logo">VAJRACORE <span>ENGINEERING</span></div>
-  <nav><a href="index.html">Home</a><a href="services.html" style="color:var(--primary)">Services</a><a href="gallery.html">Gallery</a><a href="career.html">Career</a><a href="contacts.html">Contacts</a></nav>
+  <div class="logo-text"><h1>VAJRA <span>ENGINEERING SERVICE</span></h1></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="services.html" style="color: var(--primary-color);">Services</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contacts.html">Contacts</a>
+    <a href="career.html">Career</a>
+  </nav>
 </header>
+
 <div class="container">
-  <div class="title"><h1>Our Expert <span>Solutions</span></h1></div>
-  
-  <div class="service-card">
-    <h2>Precision Core Cutting</h2>
-    <ul>
-      <li>RCC Core Drilling (HVAC/Plumbing)</li>
-      <li>Vibration-Free Diamond Cutting</li>
-      <li>Deep Hole Reinforcement Penetration</li>
-      <li>Dust-Controlled Wet Cutting</li>
-    </ul>
+  <div class="service-detail-card">
+    <h2>RCC Core Cutting</h2>
+    <div class="specs-grid">
+      <div>
+        <p>We provide vibration-free diamond core drilling for residential and industrial projects.</p>
+        <ul>
+          <li>Range: 25mm to 500mm Diameter</li>
+          <li>Depth: Up to 1000mm extension capability</li>
+          <li>Horizontal, Vertical, and Angular Cutting</li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li>RCC Slab & Beam Cutting</li>
+          <li>Stitch Drilling for Large Openings</li>
+          <li>Wall Sawing for Doors/Windows</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
-  <div class="service-card">
-    <h2>Chemical & Deep Cleaning</h2>
-    <ul>
-      <li>Industrial Pipeline De-scaling</li>
-      <li>Boiler & Heat Exchanger Flushing</li>
-      <li>Post-Construction Site Cleaning</li>
-      <li>Data Center Sanitization</li>
-    </ul>
-  </div>
-
-  <div class="service-card">
-    <h2>MEP & Electrical</h2>
-    <ul>
-      <li>Smart Grid Power Integration</li>
-      <li>High-Pressure Plumbing Systems</li>
-      <li>HVAC/VRV Plant Installation</li>
-      <li>Industrial PLC Automation</li>
-    </ul>
+  <div class="service-detail-card">
+    <h2>Chemical Cleaning & Flushing</h2>
+    <div class="specs-grid">
+      <div>
+        <ul>
+          <li>Pipeline Chemical Passivation</li>
+          <li>Boiler De-scaling & Maintenance</li>
+          <li>Hydro-Jetting (Up to 10,000 PSI)</li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li>System Sanitization</li>
+          <li>Chiller Plant Cleaning</li>
+          <li>Post-Construction Pipe Flushing</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 </body>
