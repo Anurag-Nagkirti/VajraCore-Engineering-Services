@@ -4,70 +4,157 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Careers | VajraCore Engineering</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --gold: #D4AF37; --white: #ffffff; --bg: #0a0b10; --border: rgba(212, 175, 55, 0.15); }
-    * { box-sizing: border-box; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #cbd5e1; margin: 0; padding-top: 100px; }
+    :root { 
+      --gold: #D4AF37; 
+      --white: #ffffff; 
+      --bg: #0a0b10; 
+      --border: rgba(212, 175, 55, 0.15); 
+    }
     
-    header { background: rgba(10, 11, 16, 0.98); backdrop-filter: blur(20px); display: flex; justify-content: space-between; align-items: center; padding: 0 6%; position: fixed; top: 0; width: 100%; height: 100px; border-bottom: 1px solid var(--border); z-index: 1000; }
-    .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; color: var(--white); text-transform: uppercase; line-height: 1; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background: var(--bg); 
+      color: #cbd5e1; 
+      margin: 0; 
+      padding-top: 100px; 
+      overflow-x: hidden;
+    }
+
+    /* --- NEW HEADER STYLES --- */
+    header {
+      background: rgba(10, 11, 16, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 6%;
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      z-index: 1000;
+      height: 100px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-section { display: flex; flex-direction: column; cursor: pointer; }
+    .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 1px; line-height: 1; text-transform: uppercase; color: var(--white); }
     .logo-text h1 span { color: var(--gold); }
-    .logo-text p { margin: 5px 0 0 0; font-size: 8px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
 
-    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 11px; font-weight: 700; margin-left: 30px; text-transform: uppercase; }
+    .logo-text p {
+      margin: 4px 0 0 0;
+      font-size: 7px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 800;
+      opacity: 0.9;
+    }
+
+    nav { display: flex; align-items: center; gap: 25px; }
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 10px; font-weight: 700; transition: 0.3s; text-transform: uppercase; letter-spacing: 1.5px; }
     nav a:hover { color: var(--gold); }
+    .btn-brochure { border: 1px solid var(--gold); padding: 10px 18px; color: var(--gold) !important; font-size: 10px; border-radius: 2px; }
+    .btn-brochure:hover { background: var(--gold); color: #000 !important; }
 
-    .main-container { max-width: 1200px; margin: 0 auto; padding: 60px 6%; }
-    h2 { color: var(--white); text-transform: uppercase; letter-spacing: 2px; }
-    h2 span { color: var(--gold); }
+    .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .menu-toggle span { width: 25px; height: 2px; background: var(--gold); }
 
-    .job-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 30px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
-    .job-card:hover { border-color: var(--gold); background: rgba(212, 175, 55, 0.02); }
-    .job-info h3 { color: var(--gold); margin: 0 0 10px 0; text-transform: uppercase; font-size: 18px; }
-    .btn-apply { border: 1px solid var(--gold); padding: 10px 20px; color: var(--gold); text-decoration: none; font-size: 12px; font-weight: 700; text-transform: uppercase; }
-    .btn-apply:hover { background: var(--gold); color: #000; }
+    /* --- MAIN CONTENT --- */
+    .main-container { max-width: 1200px; margin: 0 auto; padding: 60px 6% 100px; }
+    
+    .page-header { margin-bottom: 50px; }
+    .page-header h2 { font-size: 28px; color: var(--white); text-transform: uppercase; letter-spacing: 2px; margin: 0; }
+    .page-header h2 span { color: var(--gold); }
+    .page-header p { font-size: 14px; color: #64748b; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
 
-    @media (max-width: 768px) {
+    /* NO OPENING SECTION */
+    .no-openings-box { 
+      background: rgba(255,255,255,0.02); 
+      border: 1px dashed var(--border); 
+      padding: 60px 40px; 
+      text-align: center; 
+      margin-top: 40px;
+    }
+    .no-openings-box h3 { color: var(--white); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+    .no-openings-box p { color: #94a3b8; max-width: 600px; margin: 0 auto 30px; line-height: 1.6; }
+    
+    .btn-resume { 
+      display: inline-block;
+      border: 1px solid var(--gold); 
+      padding: 15px 30px; 
+      color: var(--gold); 
+      text-decoration: none; 
+      font-size: 12px; 
+      font-weight: 700; 
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: 0.3s;
+    }
+    .btn-resume:hover { background: var(--gold); color: #000; }
+
+    footer { text-align: center; padding: 60px 0; border-top: 1px solid var(--border); }
+    footer p { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #555; }
+
+    @media (max-width: 900px) {
       header { height: 80px; }
-      .job-card { flex-direction: column; align-items: flex-start; gap: 20px; }
-      nav { display: none; }
+      .menu-toggle { display: flex; }
+      nav {
+        position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
+        background: #0a0b10; flex-direction: column; justify-content: center; transition: 0.4s;
+      }
+      nav.active { left: 0; }
     }
   </style>
 </head>
 <body>
+
 <header>
-  <div class="logo-text">
-    <h1>VAJRACORE <span>ENGINEERING</span></h1>
-    <p>Strength Through Precision</p>
+  <div class="logo-section" onclick="window.location.href='index.html'">
+    <div class="logo-text">
+      <h1>VAJRACORE <span>ENGINEERING</span></h1>
+      <p>Uncompromising Industrial Standards</p>
+    </div>
   </div>
-  <nav>
+  <div class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></div>
+  <nav id="nav-list">
     <a href="index.html">Home</a>
     <a href="services.html">Services</a>
+    <a href="gallery.html">Gallery</a>
     <a href="career.html" style="color: var(--gold);">Career</a>
     <a href="contacts.html">Contacts</a>
+    <a href="brochure.pdf" class="btn-brochure" download>Brochure</a>
   </nav>
 </header>
 
 <div class="main-container">
-  <h2>Join Our <span>Technical Team</span></h2>
-  <p>Build your career with Maharashtra's leading industrial service provider.</p>
-  
-  <div class="job-card">
-    <div class="job-info">
-      <h3>MEP Site Supervisor</h3>
-      <p>Location: Pune | Experience: 3-5 Years</p>
-    </div>
-    <a href="mailto:careers@vajracore.com" class="btn-apply">Apply Now</a>
+  <div class="page-header">
+    <h2>Join Our <span>Technical Team</span></h2>
+    <p>Build your career with Maharashtra's leading industrial service provider.</p>
   </div>
 
-  <div class="job-card">
-    <div class="job-info">
-      <h3>Senior Core Cutting Technician</h3>
-      <p>Location: Pune | Experience: 2+ Years</p>
-    </div>
-    <a href="mailto:careers@vajracore.com" class="btn-apply">Apply Now</a>
+  <div class="no-openings-box">
+    <h3>No Current Openings</h3>
+    <p>We are not actively hiring at this moment. However, we are always looking for exceptional talent to join our talent pool for future industrial projects.</p>
+    <a href="mailto:careers@vajracore.com" class="btn-resume">Drop Your Resume</a>
   </div>
 </div>
+
+<footer><p>&copy; 2026 VajraCore Engineering Services | Precision. Integrity. Innovation.</p></footer>
+
+<script>
+  // Mobile Menu Logic
+  const menuToggle = document.getElementById('mobile-menu');
+  const navList = document.getElementById('nav-list');
+  menuToggle.addEventListener('click', () => { 
+    navList.classList.toggle('active'); 
+  });
+</script>
+
 </body>
 </html>
