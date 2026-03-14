@@ -3,29 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Services - Contiknight Engineers</title>
+  <title>Our Services - VajraCore Engineering Services</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-color: #e94560;
       --secondary-color: #4dbae2;
-      --bg-dark: #0b0c10;
-      --glass-bg: rgba(255, 255, 255, 0.04);
-      --header-bg: rgba(11, 12, 16, 0.95);
+      --bg-dark: #050608;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
       --accent-gradient: linear-gradient(135deg, #e94560 0%, #4dbae2 100%);
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; transition: all 0.3s ease; }
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       margin: 0;
-      padding-top: 120px;
+      padding-top: 100px;
       background: var(--bg-dark);
       color: #fff;
       overflow-x: hidden;
       line-height: 1.6;
+    }
+
+    /* --- DYNAMIC BACKGROUND --- */
+    #canvas-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 50%, #1a1b25 0%, #050608 100%);
     }
 
     /* --- PREMIUM LOADING SCREEN --- */
@@ -33,7 +42,7 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: #0b0c10;
+      background: #050608;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -53,174 +62,198 @@
     @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
     .loader-finished { opacity: 0; visibility: hidden; }
 
-    #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-
-    /* --- CONSISTENT HEADER --- */
+    /* --- HEADER --- */
     header {
-      background: var(--header-bg);
+      background: rgba(5, 6, 8, 0.85);
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 5%;
+      padding: 0 8%;
       position: fixed;
       top: 0; left: 0; width: 100%;
       z-index: 1000;
-      height: 95px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      height: 90px;
+      border-bottom: 1px solid var(--glass-border);
     }
 
-    .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; }
-    .logo-section img { height: 60px; filter: drop-shadow(0 0 10px rgba(233, 69, 96, 0.4)); }
-    .logo-text h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+    .logo-section { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .logo-section img { height: 50px; filter: drop-shadow(0 0 10px rgba(233, 69, 96, 0.4)); }
+    .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 1px; }
     .brand-white { color: #fff; }
     .brand-gradient { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .logo-text p { margin: 4px 0 0 0; font-size: 11px; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
 
-    /* --- NAVIGATION & MOBILE MENU --- */
-    nav { display: flex; align-items: center; gap: 20px; }
-    nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+    nav { display: flex; align-items: center; gap: 25px; }
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
     nav a:hover { color: var(--secondary-color); }
-    .btn-download { background: var(--accent-gradient); padding: 10px 18px; border-radius: 6px; color: #fff !important; font-size: 12px; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3); }
+    .btn-download { background: var(--accent-gradient); padding: 10px 18px; border-radius: 50px; color: #fff !important; font-size: 11px; box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3); }
 
     .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
-    .menu-toggle span { width: 25px; height: 3px; background: #fff; border-radius: 2px; transition: 0.3s; }
+    .menu-toggle span { width: 25px; height: 2px; background: #fff; }
 
     /* --- SERVICES CONTENT --- */
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 5% 100px; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 60px 5% 100px; }
 
-    .page-title { text-align: center; margin-bottom: 60px; }
-    .page-title h1 { font-size: 3.5rem; font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
-    .page-title p { color: #8892b0; font-size: 1.1rem; }
+    .page-title { text-align: center; margin-bottom: 80px; }
+    .page-title h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+    .page-title p { color: #8892b0; font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
 
     .service-card {
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 35px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border);
+      border-radius: 30px;
       padding: 50px;
-      margin-bottom: 60px;
-      transition: 0.4s ease;
+      margin-bottom: 50px;
+      position: relative;
+      overflow: hidden;
     }
-    .service-card:hover { border-color: var(--secondary-color); transform: translateY(-5px); }
+    .service-card:hover { border-color: var(--secondary-color); transform: translateY(-8px); background: rgba(255, 255, 255, 0.05); }
 
-    .service-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid rgba(77, 186, 226, 0.2); padding-bottom: 20px; }
-    .service-header h2 { font-size: 32px; color: var(--secondary-color); margin: 0; font-weight: 800; }
-    .tech-tag { background: rgba(233, 69, 96, 0.1); color: var(--primary-color); padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: 700; text-transform: uppercase; border: 1px solid var(--primary-color); }
+    .service-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; }
+    .service-header h2 { font-size: 28px; color: var(--secondary-color); margin: 0; font-weight: 800; }
+    .tech-tag { background: rgba(77, 186, 226, 0.1); color: var(--secondary-color); padding: 6px 16px; border-radius: 50px; font-size: 11px; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(77, 186, 226, 0.3); }
 
-    .service-body { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    .service-body { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: start; }
 
     ul { list-style: none; padding: 0; }
-    ul li { position: relative; padding-left: 25px; margin-bottom: 12px; color: #ccd6f6; font-size: 16px; }
-    ul li::before { content: '▹'; position: absolute; left: 0; color: var(--primary-color); font-weight: bold; }
-    ul li strong { color: #fff; }
+    ul li { position: relative; padding-left: 30px; margin-bottom: 15px; color: #ccd6f6; font-size: 16px; }
+    ul li::before { content: '→'; position: absolute; left: 0; color: var(--primary-color); font-weight: 900; }
+    ul li strong { color: #fff; font-weight: 600; }
 
     .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    .gallery img { width: 100%; height: 200px; object-fit: cover; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
-    .gallery img:hover { transform: scale(1.03); border-color: var(--secondary-color); }
+    .gallery img { width: 100%; height: 220px; object-fit: cover; border-radius: 20px; border: 1px solid var(--glass-border); opacity: 0.8; }
+    .gallery img:hover { opacity: 1; transform: scale(1.02); border-color: var(--secondary-color); }
 
-    footer { background: #000; padding: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+    footer { background: #000; padding: 60px 40px; text-align: center; border-top: 1px solid var(--glass-border); color: #8892b0; font-size: 14px; }
 
-    /* --- RESPONSIVE ADJUSTMENTS --- */
+    /* --- RESPONSIVE --- */
     @media (max-width: 900px) {
-      body { padding-top: 95px; }
-      
       .menu-toggle { display: flex; }
-
       nav {
         position: fixed;
-        top: 95px; left: -100%;
-        width: 100%; height: calc(100vh - 95px);
-        background: var(--header-bg);
-        backdrop-filter: blur(25px);
+        top: 90px; left: -100%;
+        width: 100%; height: calc(100vh - 90px);
+        background: var(--bg-dark);
         flex-direction: column;
-        justify-content: flex-start;
-        padding: 40px 0;
-        gap: 25px;
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 50px 0;
+        transition: 0.4s;
         z-index: 999;
       }
       nav.active { left: 0; }
-
-      .page-title h1 { font-size: 2.2rem; }
-      .page-title p { font-size: 1rem; }
-
-      .service-card { padding: 30px 20px; border-radius: 25px; margin-bottom: 30px; }
-      .service-header { flex-direction: column; align-items: flex-start; gap: 10px; }
-      .service-header h2 { font-size: 24px; }
-      .service-body { grid-template-columns: 1fr; gap: 30px; }
-      
-      .gallery { grid-template-columns: 1fr; }
-      .gallery img { height: 180px; }
-
-      .logo-text h1 { font-size: 18px; }
-      .logo-text p { display: none; }
-      .logo-section img { height: 45px; }
+      .service-body { grid-template-columns: 1fr; }
+      .service-card { padding: 30px; }
+      .service-header { flex-direction: column; align-items: flex-start; gap: 15px; }
     }
   </style>
 </head>
 <body>
 
 <div id="loader-wrapper">
-  <img src="images/logo.png" class="loader-logo" alt="Contiknight Engineers">
-  <div class="loader-bar">
-    <div class="loader-progress"></div>
-  </div>
-  <p style="font-size: 10px; letter-spacing: 3px; margin-top: 15px; color: var(--secondary-color); font-weight: 800;">INITIALIZING SYSTEMS</p>
+  <img src="images/logo.png" class="loader-logo" alt="VajraCore">
+  <div class="loader-bar"><div class="loader-progress"></div></div>
+  <p style="font-size: 10px; letter-spacing: 3px; margin-top: 15px; color: var(--secondary-color); font-weight: 800;">INITIALIZING SERVICES</p>
 </div>
 
-<canvas id="bgCanvas"></canvas>
+<div id="canvas-container"><canvas id="bgCanvas"></canvas></div>
 
 <header>
   <div class="logo-section" onclick="window.location.href='index.html'">
-    <img src="images/logo.png" alt="Contiknight Engineers Logo">
+    <img src="images/logo.png" alt="VajraCore Logo">
     <div class="logo-text">
-      <h1><span class="brand-white">CONTIKNIGHT</span> <span class="brand-gradient">ENGINEERS</span></h1>
-      <p>The Synchronized Core of Modern Living</p>
+      <h1><span class="brand-white">VAJRACORE</span> <span class="brand-gradient">ENGINEERING</span></h1>
     </div>
   </div>
-
-  <div class="menu-toggle" id="mobile-menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-
+  <div class="menu-toggle" id="mobile-menu"><span></span><span></span></div>
   <nav id="nav-list">
     <a href="index.html">Home</a>
     <a href="services.html" style="color: var(--secondary-color);">Services</a>
     <a href="gallery.html">Gallery</a>
     <a href="contacts.html">Contacts</a>
     <a href="career.html">Career</a>
-    <a href="brochure.pdf" class="btn-download" download>Download Brochure</a>
+    <a href="brochure.pdf" class="btn-download" download>Brochure</a>
   </nav>
 </header>
 
 <div class="container">
   <div class="page-title">
-    <h1>Our Core Services</h1>
-    <p>Advanced MEP Solutions Integrated with 2026 Modern Technology</p>
+    <h2>Specialized MEP & Industrial Solutions</h2>
+    <h1>Engineered for <span class="brand-gradient">Performance.</span></h1>
+    <p>We combine heavy industrial expertise with modern smart technology to deliver integrated infrastructure services.</p>
   </div>
 
   <section class="service-card">
     <div class="service-header">
-      <h2>Plumbing & Water Management</h2>
-      <span class="tech-tag">IoT Enabled Systems</span>
+      <h2>Precision Core Cutting</h2>
+      <span class="tech-tag">Industrial Grade</span>
     </div>
     <div class="service-body">
       <ul>
-        <li><strong>Smart Pipelines:</strong> Residential & Commercial high-pressure installations.</li>
-        <li><strong>IoT Monitoring:</strong> Real-time leak detection and flow management.</li>
-        <li><strong>Industrial Solutions:</strong> Heavy-duty chemical and waste transport piping.</li>
-        <li><strong>Rainwater Harvesting:</strong> Modern filtration and underground storage grids.</li>
-        <li><strong>Water Treatment:</strong> Advanced RO and UV plant integration for complexes.</li>
-        <li><strong>Fire Suppression:</strong> Precision sprinkler systems and hydrant networks.</li>
+        <li><strong>RCC Core Drilling:</strong> Clean, circular openings for HVAC ducts and plumbing pipes.</li>
+        <li><strong>Vibration-Free:</strong> Advanced diamond-bit technology ensuring zero structural micro-cracks.</li>
+        <li><strong>Deep Hole Drilling:</strong> Capacity to cut through heavy reinforcement and thick concrete slabs.</li>
+        <li><strong>Site Safety:</strong> Dust-controlled wet cutting processes to maintain air quality on-site.</li>
       </ul>
       <div class="gallery">
-        <img src="images/plumbing1.png" alt="Plumbing Work">
-        <img src="images/plumbing2.jpg" alt="Advanced Plumbing">
+        <img src="images/core-cutting1.jpg" alt="Core Cutting Process">
+        <img src="images/core-cutting2.jpg" alt="Precision Drilling">
+      </div>
+    </div>
+  </section>
+
+  <section class="service-card">
+    <div class="service-header">
+      <h2>Industrial Chemical Cleaning</h2>
+      <span class="tech-tag">Maintenance Tech</span>
+    </div>
+    <div class="service-body">
+      <ul>
+        <li><strong>System De-scaling:</strong> Removing mineral deposits from cooling towers and heat exchangers.</li>
+        <li><strong>Pipeline Flushing:</strong> Chemical circulation to remove rust and bio-fouling from industrial lines.</li>
+        <li><strong>Boiler Treatment:</strong> Specialized alkaline boil-outs and acid cleaning for peak thermal efficiency.</li>
+        <li><strong>Eco-Friendly Solvents:</strong> Usage of biodegradable chemicals that comply with environmental safety.</li>
+      </ul>
+      <div class="gallery">
+        <img src="images/chemical1.jpg" alt="Chemical Flushing">
+        <img src="images/chemical2.jpg" alt="Pipeline Maintenance">
+      </div>
+    </div>
+  </section>
+
+  <section class="service-card">
+    <div class="service-header">
+      <h2>Commercial Deep Cleaning</h2>
+      <span class="tech-tag">Sterile Environments</span>
+    </div>
+    <div class="service-body">
+      <ul>
+        <li><strong>Industrial Post-Construction:</strong> Specialized debris and dust removal for new factories.</li>
+        <li><strong>Server Room Cleaning:</strong> Anti-static deep cleaning for data centers and sensitive labs.</li>
+        <li><strong>HVAC Duct Cleaning:</strong> Removing particulate matter to ensure high indoor air quality (IAQ).</li>
+        <li><strong>Sanitization:</strong> Hospital-grade disinfection services for commercial offices and malls.</li>
+      </ul>
+      <div class="gallery">
+        <img src="images/cleaning1.jpg" alt="Industrial Cleaning">
+        <img src="images/cleaning2.jpg" alt="Sanitization Service">
+      </div>
+    </div>
+  </section>
+
+  <section class="service-card">
+    <div class="service-header">
+      <h2>Plumbing & Water Management</h2>
+      <span class="tech-tag">IoT Integrated</span>
+    </div>
+    <div class="service-body">
+      <ul>
+        <li><strong>Smart Pipelines:</strong> High-pressure residential and commercial grid installations.</li>
+        <li><strong>Fire Suppression:</strong> Automated sprinkler systems and high-capacity hydrant networks.</li>
+        <li><strong>Water Treatment:</strong> RO/UV plant integration and rainwater harvesting filtration.</li>
+        <li><strong>Leak Detection:</strong> IoT-enabled sensors for real-time monitoring of fluid loss.</li>
+      </ul>
+      <div class="gallery">
+        <img src="images/plumbing1.png" alt="Plumbing">
+        <img src="images/plumbing2.jpg" alt="Water Management">
       </div>
     </div>
   </section>
@@ -228,48 +261,25 @@
   <section class="service-card">
     <div class="service-header">
       <h2>Electrical Engineering</h2>
-      <span class="tech-tag">Smart Grid Integration</span>
+      <span class="tech-tag">Smart Grid</span>
     </div>
     <div class="service-body">
       <ul>
-        <li><strong>Smart Wiring:</strong> Structural cabling for high-tech automated buildings.</li>
-        <li><strong>Power Automation:</strong> Industrial PLC systems and HMI panel boards.</li>
-        <li><strong>Sustainable Energy:</strong> Solar grid integration and hybrid power solutions.</li>
-        <li><strong>Lighting Design:</strong> DALI and IoT-controlled intelligent lighting systems.</li>
-        <li><strong>Critical Power:</strong> Redundant UPS systems and synchronized generator sets.</li>
-        <li><strong>Safety Audits:</strong> Thermal imaging and preventive electrical maintenance.</li>
+        <li><strong>Power Automation:</strong> Industrial PLC systems and synchronized generator setups.</li>
+        <li><strong>Sustainable Energy:</strong> Solar grid integration and energy-efficient lighting design.</li>
+        <li><strong>Safety Audits:</strong> Thermal imaging and preventive maintenance of panel boards.</li>
+        <li><strong>Structured Cabling:</strong> High-bandwidth data and smart home automation wiring.</li>
       </ul>
       <div class="gallery">
-        <img src="images/electrical1.jpg" alt="Electrical Work">
-        <img src="images/electrical2.jpg" alt="Panel Installation">
-      </div>
-    </div>
-  </section>
-
-  <section class="service-card">
-    <div class="service-header">
-      <h2>Mechanical & Fabrication</h2>
-      <span class="tech-tag">Precision Engineering</span>
-    </div>
-    <div class="service-body">
-      <ul>
-        <li><strong>HVAC Systems:</strong> Energy-efficient VRV/VRF and central chilling plants.</li>
-        <li><strong>Custom Fabrication:</strong> CNC-guided metal cutting and structural assembly.</li>
-        <li><strong>Industrial Ducting:</strong> Optimized air-flow management and ventilation.</li>
-        <li><strong>Precision Welding:</strong> TIG/MIG welding for high-pressure industrial vessels.</li>
-        <li><strong>BIM Modeling:</strong> 3D-assisted mechanical design to prevent onsite clashes.</li>
-        <li><strong>Machine Overhauling:</strong> Systematic maintenance of heavy industrial equipment.</li>
-      </ul>
-      <div class="gallery">
-        <img src="images/mechanical1.jpg" alt="Mechanical Work">
-        <img src="images/mechanical2.jpeg" alt="Fabrication Work">
+        <img src="images/electrical1.jpg" alt="Electrical Panel">
+        <img src="images/electrical2.jpg" alt="Smart Wiring">
       </div>
     </div>
   </section>
 </div>
 
 <footer>
-  <p>&copy; 2026 Contiknight Engineers | Precision Engineering for a Modern World</p>
+  <p>&copy; 2026 VajraCore Engineering Services | The Synchronized Core of Modern Living</p>
 </footer>
 
 <script>
@@ -284,65 +294,61 @@
     setTimeout(() => { loader.classList.add('loader-finished'); }, 1800);
   });
 
+  // DYNAMIC GEOMETRIC BACKGROUND (Matching Index)
   const canvas = document.getElementById('bgCanvas');
   const ctx = canvas.getContext('2d');
-  let particles = [];
+  let points = [];
+  const mouse = { x: null, y: null };
 
-  function resizeCanvas() {
+  function init() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  for (let i = 0; i < 90; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      radius: Math.random() * 1.2 + 0.8
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(77,186,226,0.3)';
-      ctx.fill();
-    });
-
-    ctx.strokeStyle = 'rgba(77,186,226,0.08)';
-    ctx.lineWidth = 0.8;
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        let dx = particles[i].x - particles[j].x;
-        let dy = particles[i].y - particles[j].y;
-        let dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 180) {
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.stroke();
-        }
-      }
+    points = [];
+    for (let i = 0; i < 60; i++) {
+      points.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5
+      });
     }
   }
 
-  function update() {
-    particles.forEach(p => {
+  window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    points.forEach(p => {
       p.x += p.vx; p.y += p.vy;
       if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
       if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+      // Mouse interaction
+      const dx = mouse.x - p.x; const dy = mouse.y - p.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 200) { p.x -= dx * 0.01; p.y -= dy * 0.01; }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(77, 186, 226, 0.3)';
+      ctx.fill();
+
+      points.forEach(p2 => {
+        const d = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
+        if (d < 150) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(233, 69, 96, ${0.1 * (1 - d/150)})`;
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      });
     });
+    requestAnimationFrame(draw);
   }
 
-  function loop() {
-    update(); draw(); requestAnimationFrame(loop);
-  }
-  loop();
+  window.addEventListener('resize', init);
+  init(); draw();
 </script>
 
 </body>

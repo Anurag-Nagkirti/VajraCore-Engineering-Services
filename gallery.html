@@ -3,36 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Gallery - Contiknight Engineers</title>
+  <title>Project Gallery - VajraCore Engineering</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-color: #e94560;
       --secondary-color: #4dbae2;
-      --bg-dark: #0b0c10;
-      --glass-bg: rgba(255, 255, 255, 0.04);
-      --header-bg: rgba(11, 12, 16, 0.92);
+      --bg-dark: #050608;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
       --accent-gradient: linear-gradient(135deg, #e94560 0%, #4dbae2 100%);
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; transition: all 0.3s ease; }
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       margin: 0;
-      padding-top: 120px;
+      padding-top: 100px;
       background: var(--bg-dark);
       color: #fff;
       overflow-x: hidden;
     }
 
-    /* --- PREMIUM LOADING SCREEN --- */
+    /* --- DYNAMIC BACKGROUND --- */
+    #canvas-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 50%, #1a1b25 0%, #050608 100%);
+    }
+
+    /* --- LOADING SCREEN --- */
     #loader-wrapper {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: #0b0c10;
+      background: #050608;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -40,307 +49,215 @@
       z-index: 9999;
       transition: opacity 0.8s ease-out, visibility 0.8s;
     }
-    .loader-logo {
-      width: 80px;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 0 15px rgba(233, 69, 96, 0.5));
-      animation: pulse 2s infinite ease-in-out;
-    }
-    .loader-bar { width: 200px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; position: relative; }
-    .loader-progress { width: 0%; height: 100%; background: var(--accent-gradient); position: absolute; animation: loadProgress 2s forwards cubic-bezier(0, 0.55, 0.45, 1); }
-    @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
-    @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
+    .loader-progress { width: 200px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; position: relative; margin-top: 20px; }
+    .loader-bar { width: 0%; height: 100%; background: var(--accent-gradient); position: absolute; animation: load 2s forwards ease-in-out; }
+    @keyframes load { 100% { width: 100%; } }
     .loader-finished { opacity: 0; visibility: hidden; }
 
-    #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-
-    /* --- CONSISTENT HEADER --- */
+    /* --- HEADER --- */
     header {
-      background: var(--header-bg);
+      background: rgba(5, 6, 8, 0.85);
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 5%;
+      padding: 0 8%;
       position: fixed;
       top: 0; left: 0; width: 100%;
       z-index: 1000;
-      height: 95px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      height: 90px;
+      border-bottom: 1px solid var(--glass-border);
     }
 
-    .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; }
-    .logo-section img { height: 60px; filter: drop-shadow(0 0 10px rgba(233, 69, 96, 0.4)); }
-    .logo-text h1 { margin: 0; font-size: 24px; font-weight: 800; }
-    .brand-white { color: #fff; }
+    .logo-section { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .logo-section img { height: 50px; }
+    .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 1px; }
     .brand-gradient { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .logo-text p { margin: 4px 0 0 0; font-size: 11px; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
 
-    /* --- NAVIGATION & MOBILE MENU --- */
-    nav { display: flex; align-items: center; gap: 20px; }
-    nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+    nav { display: flex; align-items: center; gap: 25px; }
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
     nav a:hover { color: var(--secondary-color); }
+    nav a.active { color: var(--secondary-color); }
 
-    .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
-    .menu-toggle span { width: 25px; height: 3px; background: #fff; border-radius: 2px; transition: 0.3s; }
+    /* --- GALLERY CONTENT --- */
+    .container { max-width: 1200px; margin: 0 auto; padding: 60px 5% 100px; }
 
-    /* --- FILTER SYSTEM --- */
-    .filter-container { text-align: center; margin-bottom: 50px; padding: 0 5%; }
-    .filter-btn {
-      background: var(--glass-bg);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #fff;
-      padding: 12px 25px;
-      margin: 5px;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      font-size: 14px;
-    }
-    .filter-btn:hover { border-color: var(--secondary-color); background: rgba(77, 186, 226, 0.1); }
-    .filter-btn.active { background: var(--accent-gradient); border: none; box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4); }
+    .page-header { text-align: center; margin-bottom: 60px; }
+    .page-header h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: #8892b0; font-size: 1.1rem; }
 
-    /* --- GALLERY GRID --- */
+    /* MASONRY GRID */
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 25px;
-      padding: 0 8% 100px;
+      grid-auto-rows: 300px;
     }
 
     .gallery-item {
       position: relative;
-      border-radius: 20px;
+      border-radius: 24px;
       overflow: hidden;
-      aspect-ratio: 3/2;
-      border: 1px solid rgba(255,255,255,0.05);
-      transition: 0.4s ease;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
     }
-    .gallery-item.hide { display: none; }
-    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
-    .gallery-item:hover img { transform: scale(1.1); }
 
-    .overlay {
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(40%);
+    }
+
+    .gallery-item:hover img {
+      filter: grayscale(0%);
+      transform: scale(1.1);
+    }
+
+    /* Overlay details */
+    .item-overlay {
       position: absolute;
-      bottom: 0; left: 0;
-      width: 100%; padding: 20px;
-      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+      bottom: 0; left: 0; width: 100%;
+      padding: 30px;
+      background: linear-gradient(transparent, rgba(5, 6, 8, 0.9));
       opacity: 0;
-      transition: 0.4s ease;
+      transform: translateY(20px);
     }
-    .gallery-item:hover .overlay { opacity: 1; }
-    .overlay h3 { font-size: 18px; margin: 0; color: #fff; }
-    .overlay p { font-size: 12px; color: var(--secondary-color); text-transform: uppercase; margin: 5px 0 0; }
 
-    footer { background: #000; padding: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+    .gallery-item:hover .item-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-    /* --- RESPONSIVE ADJUSTMENTS --- */
-    @media (max-width: 900px) {
-      body { padding-top: 95px; }
-      .menu-toggle { display: flex; }
-      nav {
-        position: fixed;
-        top: 95px; left: -100%;
-        width: 100%; height: calc(100vh - 95px);
-        background: var(--header-bg);
-        backdrop-filter: blur(25px);
-        flex-direction: column;
-        justify-content: flex-start;
-        padding: 40px 0;
-        gap: 25px;
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 999;
-      }
-      nav.active { left: 0; }
-      .logo-text h1 { font-size: 18px; }
-      .logo-text p { display: none; }
-      .logo-section img { height: 45px; }
-      .filter-container h2 { font-size: 28px !important; }
-      .gallery-grid { grid-template-columns: 1fr; padding: 0 5% 50px; }
+    .item-overlay h3 { margin: 0; font-size: 18px; color: #fff; }
+    .item-overlay p { margin: 5px 0 0; font-size: 12px; color: var(--secondary-color); text-transform: uppercase; font-weight: 800; }
+
+    /* Tall items for masonry effect */
+    .item-tall { grid-row: span 2; }
+
+    footer { background: #000; padding: 60px 40px; text-align: center; border-top: 1px solid var(--glass-border); color: #8892b0; font-size: 14px; }
+
+    @media (max-width: 768px) {
+      .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 250px; }
+      .item-tall { grid-row: span 1; }
     }
   </style>
 </head>
 <body>
 
 <div id="loader-wrapper">
-  <img src="images/logo.png" class="loader-logo" alt="Contiknight Engineers">
-  <div class="loader-bar">
-    <div class="loader-progress"></div>
-  </div>
-  <p style="font-size: 10px; letter-spacing: 3px; margin-top: 15px; color: var(--secondary-color); font-weight: 800;">INITIALIZING SYSTEMS</p>
+  <img src="images/logo.png" style="width: 80px;" alt="Logo">
+  <div class="loader-progress"><div class="loader-bar"></div></div>
 </div>
 
-<canvas id="bgCanvas"></canvas>
+<div id="canvas-container"><canvas id="bgCanvas"></canvas></div>
 
 <header>
   <div class="logo-section" onclick="window.location.href='index.html'">
-    <img src="images/logo.png" alt="Contiknight Engineers Logo">
+    <img src="images/logo.png" alt="VajraCore Logo">
     <div class="logo-text">
-      <h1><span class="brand-white">CONTIKNIGHT</span> <span class="brand-gradient">ENGINEERS</span></h1>
-      <p>The Synchronized Core of Modern Living</p>
+      <h1>VAJRACORE <span class="brand-gradient">ENGINEERING</span></h1>
     </div>
   </div>
-  <div class="menu-toggle" id="mobile-menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-  <nav id="nav-list">
+  <nav>
     <a href="index.html">Home</a>
     <a href="services.html">Services</a>
-    <a href="gallery.html" style="color: var(--secondary-color);">Gallery</a>
+    <a href="gallery.html" class="active">Gallery</a>
     <a href="contacts.html">Contacts</a>
     <a href="career.html">Career</a>
   </nav>
 </header>
 
-<div class="filter-container">
-  <h2 style="font-size: 40px; margin-bottom: 20px;">Project Showcase</h2>
-  <button class="filter-btn active" data-filter="all">All Projects</button>
-  <button class="filter-btn" data-filter="plumbing">Plumbing</button>
-  <button class="filter-btn" data-filter="electrical">Electrical</button>
-  <button class="filter-btn" data-filter="mechanical">Mechanical</button>
-</div>
-
-<div class="gallery-grid">
-  <div class="gallery-item" data-category="plumbing">
-    <img src="images/plumbing1.png" alt="High Pressure Pipeline">
-    <div class="overlay">
-      <h3>Smart Pipeline Installation</h3>
-      <p>Industrial Plumbing</p>
-    </div>
+<div class="container">
+  <div class="page-header">
+    <h1>Visual <span class="brand-gradient">Precision.</span></h1>
+    <p>A showcase of our industrial MEP projects and site execution excellence.</p>
   </div>
 
-  <div class="gallery-item" data-category="electrical">
-    <img src="images/electrical1.jpg" alt="Panel Board Installation">
-    <div class="overlay">
-      <h3>Main Control Panel</h3>
-      <p>Electrical Engineering</p>
+  <div class="gallery-grid">
+    <div class="gallery-item item-tall">
+      <img src="images/project1.jpg" alt="Industrial HVAC">
+      <div class="item-overlay">
+        <h3>Centralized Chilling Plant</h3>
+        <p>Mechanical / HVAC</p>
+      </div>
     </div>
-  </div>
 
-  <div class="gallery-item" data-category="mechanical">
-    <img src="images/mechanical1.jpg" alt="Industrial Fabrication">
-    <div class="overlay">
-      <h3>Structural Fabrication</h3>
-      <p>Mechanical Services</p>
+    <div class="gallery-item">
+      <img src="images/project2.jpg" alt="Electrical Panel">
+      <div class="item-overlay">
+        <h3>Main Control Panel</h3>
+        <p>Electrical Systems</p>
+      </div>
     </div>
-  </div>
 
-  <div class="gallery-item" data-category="plumbing">
-    <img src="images/plumbing2.jpg" alt="Water Management System">
-    <div class="overlay">
-      <h3>Modern Water Grid</h3>
-      <p>Commercial Plumbing</p>
+    <div class="gallery-item">
+      <img src="images/project3.jpg" alt="Core Cutting Site">
+      <div class="item-overlay">
+        <h3>RCC Slab Penetration</h3>
+        <p>Core Cutting Service</p>
+      </div>
     </div>
-  </div>
 
-  <div class="gallery-item" data-category="mechanical">
-    <img src="images/project2.jpeg" alt="Precision Welding">
-    <div class="overlay">
-      <h3>Precision TIG Welding</h3>
-      <p>Custom Fabrication</p>
+    <div class="gallery-item item-tall">
+      <img src="images/project4.jpg" alt="Pipeline Cleaning">
+      <div class="item-overlay">
+        <h3>Industrial Pipeline Flushing</h3>
+        <p>Chemical Cleaning</p>
+      </div>
+    </div>
+
+    <div class="gallery-item">
+      <img src="images/project5.jpg" alt="Fire Hydrant">
+      <div class="item-overlay">
+        <h3>High-Pressure Hydrant Grid</h3>
+        <p>Fire Suppression</p>
+      </div>
+    </div>
+
+    <div class="gallery-item">
+      <img src="images/project6.jpg" alt="Smart Wiring">
+      <div class="item-overlay">
+        <h3>Structured Data Cabling</h3>
+        <p>Automation & IT</p>
+      </div>
     </div>
   </div>
 </div>
 
 <footer>
-  <p>&copy; 2026 Contiknight Engineers | Showcasing Excellence in Every Joint and Wire</p>
+  <p>&copy; 2026 VajraCore Engineering Services | Precision Excellence</p>
 </footer>
 
 <script>
-  // MOBILE MENU
-  const menuToggle = document.getElementById('mobile-menu');
-  const navList = document.getElementById('nav-list');
-  menuToggle.addEventListener('click', () => navList.classList.toggle('active'));
-
-  // LOADING SCREEN
-  window.addEventListener('load', () => {
-    const loader = document.getElementById('loader-wrapper');
-    setTimeout(() => { loader.classList.add('loader-finished'); }, 1800);
-  });
-
-  /* --- FILTER LOGIC --- */
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const galleryItems = document.querySelectorAll('.gallery-item');
-
-  filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      filterButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-      const filterValue = button.getAttribute('data-filter');
-      galleryItems.forEach(item => {
-        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-          item.classList.remove('hide');
-        } else {
-          item.classList.add('hide');
-        }
-      });
-      // Close mobile menu if filter is clicked
-      if (window.innerWidth <= 900) navList.classList.remove('active');
-    });
-  });
-
-  /* --- PARTICLE BACKGROUND --- */
+  // Background logic (Matches Index)
   const canvas = document.getElementById('bgCanvas');
   const ctx = canvas.getContext('2d');
-  let particles = [];
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  for (let i = 0; i < 80; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      radius: Math.random() * 1.5 + 1
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(77,186,226,0.2)';
-      ctx.fill();
-    });
-
-    ctx.strokeStyle = 'rgba(77,186,226,0.06)';
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        let dx = particles[i].x - particles[j].x;
-        let dy = particles[i].y - particles[j].y;
-        let dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 150) {
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.stroke();
-        }
-      }
+  let points = [];
+  function init() {
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    points = [];
+    for (let i = 0; i < 60; i++) {
+      points.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5 });
     }
   }
-
-  function update() {
-    particles.forEach(p => {
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    points.forEach(p => {
       p.x += p.vx; p.y += p.vy;
       if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
       if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI * 2); ctx.fillStyle = 'rgba(77, 186, 226, 0.3)'; ctx.fill();
+      points.forEach(p2 => {
+        const d = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
+        if (d < 150) { ctx.beginPath(); ctx.strokeStyle = `rgba(233, 69, 96, ${0.1 * (1 - d/150)})`; ctx.lineWidth = 0.5; ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke(); }
+      });
     });
+    requestAnimationFrame(draw);
   }
-
-  function loop() { update(); draw(); requestAnimationFrame(loop); }
-  loop();
+  window.addEventListener('load', () => setTimeout(() => document.getElementById('loader-wrapper').classList.add('loader-finished'), 1500));
+  window.addEventListener('resize', init);
+  init(); draw();
 </script>
 
 </body>

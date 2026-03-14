@@ -3,331 +3,295 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VajraCore Engineering Services - MEP Solutions</title>
+  <title>VajraCore Engineering Services | Precision & Care</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-color: #e94560;
       --secondary-color: #4dbae2;
-      --bg-dark: #0b0c10;
-      --glass-bg: rgba(255, 255, 255, 0.04);
-      --header-bg: rgba(11, 12, 16, 0.92);
+      --bg-dark: #050608;
+      --card-bg: rgba(255, 255, 255, 0.03);
       --accent-gradient: linear-gradient(135deg, #e94560 0%, #4dbae2 100%);
+      --glass-border: rgba(255, 255, 255, 0.08);
     }
 
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
+    * { box-sizing: border-box; transition: all 0.3s ease; }
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       margin: 0;
-      padding-top: 110px;
+      padding-top: 100px;
       background: var(--bg-dark);
       color: #fff;
       overflow-x: hidden;
-      line-height: 1.8;
     }
 
-    /* --- PREMIUM LOADING SCREEN --- */
-    #loader-wrapper {
+    /* --- NEW AESTHETIC BACKGROUND --- */
+    #canvas-container {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: #0b0c10;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.8s ease-out, visibility 0.8s;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 50%, #1a1b25 0%, #050608 100%);
     }
-    .loader-logo {
-      width: 80px;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 0 15px rgba(233, 69, 96, 0.5));
-      animation: pulse 2s infinite ease-in-out;
-    }
-    .loader-bar { width: 200px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; position: relative; }
-    .loader-progress { width: 0%; height: 100%; background: var(--accent-gradient); position: absolute; animation: loadProgress 2s forwards cubic-bezier(0, 0.55, 0.45, 1); }
-    @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
-    @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
-    .loader-finished { opacity: 0; visibility: hidden; }
-
-    #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
     /* --- HEADER --- */
     header {
-      background: var(--header-bg);
+      background: rgba(5, 6, 8, 0.8);
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 5%;
+      padding: 0 8%;
       position: fixed;
       top: 0; left: 0; width: 100%;
       z-index: 1000;
-      height: 95px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      height: 90px;
+      border-bottom: 1px solid var(--glass-border);
     }
 
-    .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; }
-    .logo-section img { height: 60px; filter: drop-shadow(0 0 10px rgba(233, 69, 96, 0.4)); }
-    .logo-text h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; }
-    .brand-white { color: #fff; }
+    .logo-section { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .logo-section img { height: 50px; }
+    .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 1px; }
     .brand-gradient { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .logo-text p { margin: 4px 0 0 0; font-size: 11px; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
 
-    /* --- NAVIGATION --- */
-    nav { display: flex; align-items: center; gap: 20px; }
-    nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; font-weight: 600; transition: 0.3s; text-transform: uppercase; }
-    nav a:hover { color: var(--secondary-color); }
-    .btn-download { background: var(--accent-gradient); padding: 10px 18px; border-radius: 6px; color: #fff !important; font-size: 12px; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3); }
+    nav { display: flex; gap: 30px; }
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    nav a:hover, nav a.active { color: var(--secondary-color); }
 
-    /* Hamburger Menu Toggle */
-    .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-    .menu-toggle span { width: 25px; height: 3px; background: #fff; border-radius: 2px; transition: 0.3s; }
-
-    /* --- HERO --- */
+    /* --- HERO SECTION --- */
     .hero {
-      background: linear-gradient(rgba(11, 12, 16, 0.75), rgba(11, 12, 16, 0.75)), url("images/mep_banner.jpg") no-repeat center center/cover;
-      height: 350px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
       text-align: center;
-      border-radius: 25px;
-      margin: 20px 5%;
-      padding: 0 20px;
-      border: 1px solid rgba(255,255,255,0.05);
+      padding: 80px 5% 40px;
+      max-width: 900px;
+      margin: 0 auto;
     }
-    .hero h2 { font-size: 3.5rem; margin: 0; font-weight: 800; }
 
-    .main-container { max-width: 1100px; margin: 0 auto; padding: 0 5% 100px; }
-    .section-card { background: var(--glass-bg); backdrop-filter: blur(20px); padding: 60px; border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 50px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+    .hero h2 {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      letter-spacing: 4px;
+      margin-bottom: 20px;
+    }
 
-    h2 { color: var(--secondary-color); font-size: 34px; font-weight: 800; margin-top: 0; margin-bottom: 30px; display: flex; align-items: center; gap: 15px; }
-    h2::after { content: ''; flex-grow: 1; height: 1px; background: rgba(255, 255, 255, 0.1); }
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin: 0;
+    }
 
-    p { font-size: 18px; color: #cbd5e1; margin-bottom: 25px; }
-    strong { color: var(--secondary-color); font-weight: 700; }
+    /* --- SERVICES GRID --- */
+    .services-container {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 5%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
 
-    .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-    .value-box { background: rgba(255, 255, 255, 0.02); padding: 30px; border-radius: 20px; border-left: 4px solid var(--primary-color); transition: 0.4s; }
-    .value-box:hover { background: rgba(255, 255, 255, 0.05); transform: translateY(-5px); }
-    .value-box h3 { color: #fff; font-size: 20px; margin-bottom: 10px; }
+    .service-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      padding: 40px;
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
 
-    .gif-section { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 50px 0; }
-    .gif-section img { height: 200px; width: 300px; object-fit: cover; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.5s; }
-    .gif-section img:hover { transform: scale(1.05); border-color: var(--secondary-color); }
+    .service-card:hover {
+      border-color: var(--secondary-color);
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.05);
+    }
 
-    .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 2000; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; }
-    .whatsapp-float:hover { transform: scale(1.1); }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 4px; height: 0;
+      background: var(--accent-gradient);
+      transition: 0.5s;
+    }
 
-    footer { background: #000; padding: 60px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+    .service-card:hover::before { height: 100%; }
 
-    /* --- RESPONSIVE ADJUSTMENTS --- */
-    @media (max-width: 900px) {
-      body { padding-top: 95px; }
+    .service-card h3 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #fff;
+    }
 
+    .service-card p {
+      color: #8892b0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 50px;
+      background: rgba(77, 186, 226, 0.1);
+      color: var(--secondary-color);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+
+    /* --- MOBILE MENU --- */
+    .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
+    .menu-toggle span { width: 30px; height: 2px; background: #fff; }
+
+    @media (max-width: 768px) {
+      header { padding: 0 5%; }
+      nav { display: none; }
       .menu-toggle { display: flex; }
-
-      nav {
-        position: fixed;
-        top: 95px;
-        left: -100%;
-        width: 100%;
-        height: calc(100vh - 95px);
-        background: var(--header-bg);
-        backdrop-filter: blur(25px);
-        flex-direction: column;
-        justify-content: flex-start;
-        padding: 40px 0;
-        gap: 30px;
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 999;
-      }
-
-      nav.active { left: 0; }
-
-      .hero { height: 250px; margin: 15px 5%; border-radius: 15px; }
-      .hero h2 { font-size: 1.8rem; line-height: 1.3; padding: 0 10px; }
-
-      .section-card { padding: 30px 20px; border-radius: 20px; margin-bottom: 30px; }
-      .section-card[style*="grid-template-columns"] { grid-template-columns: 1fr !important; gap: 30px !important; }
-
-      h2 { font-size: 24px; gap: 10px; }
-      p { font-size: 16px; }
-
-      .gif-section { gap: 15px; margin: 30px 0; }
-      .gif-section img { width: 90%; height: auto; }
-
-      .logo-text h1 { font-size: 18px; }
-      .logo-text p { font-size: 8px; letter-spacing: 1px; }
-      .logo-section img { height: 45px; }
-
-      .whatsapp-float { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+      .hero h1 { font-size: 3rem; }
     }
   </style>
 </head>
 <body>
 
-<div id="loader-wrapper">
-  <img src="images/logo.png" class="loader-logo" alt="VajraCore Engineering Services">
-  <div class="loader-bar">
-    <div class="loader-progress"></div>
-  </div>
-  <p style="font-size: 10px; letter-spacing: 3px; margin-top: 15px; color: var(--secondary-color); font-weight: 800;">INITIALIZING SYSTEMS</p>
+<div id="canvas-container">
+  <canvas id="bgCanvas"></canvas>
 </div>
-
-<canvas id="bgCanvas"></canvas>
 
 <header>
   <div class="logo-section" onclick="window.location.href='index.html'">
-    <img src="images/logo.png" alt="VajraCore Engineering Services Logo">
+    <img src="images/logo.png" alt="VajraCore Logo">
     <div class="logo-text">
-      <h1><span class="brand-white">VAJRACORE</span> <span class="brand-gradient">ENGINEERING SERVICES</span></h1>
-      <p>The Synchronized Core of Modern Living</p>
+      <h1>VAJRACORE <span class="brand-gradient">ENGINEERING</span></h1>
     </div>
   </div>
-
-  <div class="menu-toggle" id="mobile-menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-
-  <nav id="nav-list">
-    <a href="index.html" style="color: var(--secondary-color);">Home</a>
+  <div class="menu-toggle"><span></span><span></span></div>
+  <nav>
+    <a href="index.html" class="active">Home</a>
     <a href="services.html">Services</a>
-    <a href="gallery.html">Gallery</a>
     <a href="contacts.html">Contacts</a>
     <a href="career.html">Career</a>
-    <a href="brochure.pdf" class="btn-download" download><span>Download Brochure</span></a>
   </nav>
 </header>
 
-<div class="hero">
-  <h2>The Synchronized Core of Modern Living</h2>
-</div>
-
-<div class="gif-section">
-  <img src="images/plumbing-gif.gif" alt="Plumbing Animation">
-  <img src="images/electrical-gif.gif" alt="Electrical Animation">
-  <img src="images/mechanical-gif.gif" alt="Mechanical Animation">
-</div>
-
-<div class="main-container">
-  <section class="section-card">
-    <h2>About Us</h2>
-    <p>At <strong>VajraCore Engineering Services</strong>, we believe engineering is not just about systems—it’s about people. Every project we take on is a promise: to deliver reliable solutions, build lasting relationships, and create infrastructure that stands the test of time.</p>
-    <p>We specialize in smart plumbing installations, pipelines, and water systems designed for efficiency, safety, and sustainability. Our expertise ensures that every mechanical and electrical system we install integrates seamlessly with the architecture of the future.</p>
+<main>
+  <section class="hero">
+    <h2>Engineering Excellence</h2>
+    <h1>The Core of <span class="brand-gradient">Modern Living.</span></h1>
+    <p style="color: #8892b0; margin-top: 30px; font-size: 18px;">Modular MEP solutions and specialized industrial services tailored for the future.</p>
   </section>
 
-  <section class="section-card" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
-    <div>
-      <h2>Our Vision</h2>
-      <p>To be recognized as a leading MEP engineering partner that delivers innovative, sustainable, and future-ready solutions to clients worldwide.</p>
+  <div class="services-container">
+    <div class="service-card">
+      <div class="tag">MEP Solutions</div>
+      <h3>Mechanical & HVAC</h3>
+      <p>Precision climate control and ventilation systems designed for industrial efficiency and residential comfort.</p>
     </div>
-    <div>
-      <h2>Our Mission</h2>
-      <p>Our mission is to engineer confidence and reliability in every project we undertake, ensuring maximum safety and operational excellence.</p>
+
+    <div class="service-card">
+      <div class="tag">Energy</div>
+      <h3>Electrical Systems</h3>
+      <p>From high-tension industrial grids to smart home automation, we power your vision with safety-first engineering.</p>
     </div>
-  </section>
 
-  <section class="section-card">
-    <h2>Our Core Values</h2>
-    <div class="values-grid">
-      <div class="value-box"><h3>Integrity</h3><p>We operate with honesty, transparency, and ethical practices in everything we do.</p></div>
-      <div class="value-box"><h3>Innovation</h3><p>We embrace modern technology and creative solutions to solve complex engineering challenges.</p></div>
-      <div class="value-box"><h3>Quality</h3><p>We set high standards and consistently deliver projects that exceed expectations.</p></div>
-      <div class="value-box"><h3>Safety</h3><p>We prioritize the well-being of our teams, clients, and communities above all else.</p></div>
-      <div class="value-box"><h3>Sustainability</h3><p>We design and execute projects with eco-friendly practices to protect our future.</p></div>
-      <div class="value-box"><h3>Customer Focus</h3><p>We listen, adapt, and collaborate closely with clients to bring their vision to life.</p></div>
-      <div class="value-box"><h3>Excellence</h3><p>We carry forward a proud family legacy of engineering excellence through dedication and precision.</p></div>
+    <div class="service-card">
+      <div class="tag">Industrial</div>
+      <h3>Core Cutting</h3>
+      <p>Precision RCC core cutting for plumbing, electrical, and HVAC ducts using advanced diamond-bit machinery with zero structural damage.</p>
     </div>
-  </section>
-</div>
 
-<a href="https://wa.me/919975082204?text=Hello%20Anurag,%20I%20am%20interested%20in%20VajraCore%20Engineering%20Services%20MEP%20services." class="whatsapp-float" target="_blank">
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893 0-3.18-1.238-6.173-3.486-8.422z"/></svg></a>
+    <div class="service-card">
+      <div class="tag">Specialized</div>
+      <h3>Chemical Cleaning</h3>
+      <p>Professional de-scaling and chemical treatment for industrial pipelines, cooling towers, and boiler systems to maximize lifespan.</p>
+    </div>
 
-<footer><p>&copy; 2026 VajraCore Engineering Services | MEP Solutions | Built for the Future</p></footer>
+    <div class="service-card">
+      <div class="tag">Maintenance</div>
+      <h3>Deep Cleaning</h3>
+      <p>High-standard industrial and commercial deep cleaning services, ensuring sterile and dust-free environments for sensitive equipment.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="tag">Fluid Tech</div>
+      <h3>Plumbing & Fire</h3>
+      <p>Advanced hydraulic systems and fire suppression technologies built to international safety standards.</p>
+    </div>
+  </div>
+</main>
 
 <script>
-  // MOBILE MENU SCRIPT
-  const menuToggle = document.getElementById('mobile-menu');
-  const navList = document.getElementById('nav-list');
+  // DYNAMIC GEOMETRIC BACKGROUND
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  let points = [];
+  const mouse = { x: null, y: null };
 
-  menuToggle.addEventListener('click', () => {
-    navList.classList.toggle('active');
-  });
-
-  // Close menu when a link is clicked
-  document.querySelectorAll('nav a').forEach(link => {
-    link.addEventListener('click', () => {
-      navList.classList.remove('active');
-    });
-  });
-
-  // LOADER SCRIPT
-  window.addEventListener('load', () => {
-    const loader = document.getElementById('loader-wrapper');
-    setTimeout(() => { loader.classList.add('loader-finished'); }, 1800);
-  });
-
-  // PARTICLE BACKGROUND WITH MOUSE INTERACTION
-  const canvas = document.getElementById('bgCanvas'); const ctx = canvas.getContext('2d');
-  let particles = []; let mouse = { x: null, y: null };
-
-  window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
-  function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-  window.addEventListener('resize', resizeCanvas); resizeCanvas();
-
-  for (let i = 0; i < 90; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      radius: Math.random() * 1.5 + 1
-    });
+  function init() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    points = [];
+    for (let i = 0; i < 60; i++) {
+      points.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5
+      });
+    }
   }
+
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+  });
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(77,186,226,0.3)'; ctx.fill();
-    });
-    ctx.strokeStyle = 'rgba(77,186,226,0.1)'; ctx.lineWidth = 0.8;
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        let dx = particles[i].x - particles[j].x;
-        let dy = particles[i].y - particles[j].y;
-        let dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 150) {
-          if (mouse.x && Math.abs(mouse.x - particles[i].x) < 100) { ctx.strokeStyle = 'rgba(233,69,96,0.2)'; }
-          else { ctx.strokeStyle = 'rgba(77,186,226,0.1)'; }
-          ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
-        }
-      }
-    }
-  }
-  function update() {
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
+    
+    points.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+
       if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
       if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+      // Interaction with mouse
+      const dx = mouse.x - p.x;
+      const dy = mouse.y - p.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 200) {
+        p.x -= dx * 0.01;
+        p.y -= dy * 0.01;
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(77, 186, 226, 0.3)';
+      ctx.fill();
+
+      points.forEach(p2 => {
+        const d = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
+        if (d < 150) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(233, 69, 96, ${0.1 * (1 - d/150)})`;
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      });
     });
+    requestAnimationFrame(draw);
   }
-  function loop() { update(); draw(); requestAnimationFrame(loop); } loop();
+
+  window.addEventListener('resize', init);
+  init();
+  draw();
 </script>
+
 </body>
 </html>
