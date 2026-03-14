@@ -4,66 +4,144 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Services | VajraCore Engineering</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --gold: #D4AF37; --white: #ffffff; --bg: #0a0b10; --border: rgba(212, 175, 55, 0.15); }
-    * { box-sizing: border-box; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #cbd5e1; margin: 0; padding-top: 100px; }
+    :root { 
+      --gold: #D4AF37; 
+      --white: #ffffff; 
+      --bg-dark: #0a0b10; 
+      --border: rgba(212, 175, 55, 0.15); 
+    }
     
-    header { background: rgba(10, 11, 16, 0.98); display: flex; justify-content: space-between; align-items: center; padding: 0 6%; position: fixed; top: 0; width: 100%; height: 100px; border-bottom: 1px solid var(--border); z-index: 1000; }
-    .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; color: var(--white); text-transform: uppercase; line-height: 1; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background: var(--bg-dark); 
+      color: #cbd5e1; 
+      margin: 0; 
+      padding-top: 100px; 
+      overflow-x: hidden;
+    }
+
+    /* --- HEADER (MATCHES INDEX) --- */
+    header {
+      background: rgba(10, 11, 16, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 6%;
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      z-index: 1000;
+      height: 100px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-section { display: flex; flex-direction: column; cursor: pointer; }
+    .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 1px; line-height: 1; text-transform: uppercase; color: var(--white); }
     .logo-text h1 span { color: var(--gold); }
-    .logo-text p { margin: 5px 0 0 0; font-size: 8px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+    
+    .logo-text p {
+      margin: 4px 0 0 0;
+      font-size: 7px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 800;
+      opacity: 0.9;
+    }
 
-    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 11px; font-weight: 700; margin-left: 30px; text-transform: uppercase; }
+    nav { display: flex; align-items: center; gap: 25px; }
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 10px; font-weight: 700; transition: 0.3s; text-transform: uppercase; letter-spacing: 1.5px; }
     nav a:hover { color: var(--gold); }
+    .btn-brochure { border: 1px solid var(--gold); padding: 10px 18px; color: var(--gold) !important; font-size: 10px; border-radius: 2px; }
+    .btn-brochure:hover { background: var(--gold); color: #000 !important; }
 
-    .main-container { max-width: 1200px; margin: 0 auto; padding: 60px 6%; }
-    h2 { color: var(--white); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 50px; }
-    h2 span { color: var(--gold); }
+    .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .menu-toggle span { width: 25px; height: 2px; background: var(--gold); }
 
-    .service-section { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: center; }
+    /* --- MAIN CONTENT --- */
+    .main-container { max-width: 1200px; margin: 0 auto; padding: 60px 6% 100px; }
+    
+    .section-title { font-size: 22px; color: var(--white); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 50px; display: flex; align-items: center; gap: 15px; }
+    .section-title::after { content: ''; flex-grow: 1; height: 1px; background: var(--border); }
+    .section-title span { color: var(--gold); }
+
+    .service-section { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 100px; align-items: center; }
     .service-section.reverse { direction: rtl; }
     .service-section.reverse .text-content { direction: ltr; }
 
-    .text-content h3 { color: var(--gold); font-size: 24px; text-transform: uppercase; margin-top: 0; }
-    .service-img { width: 100%; height: 350px; background: #1a1b22; border: 1px solid var(--border); object-fit: cover; transition: 0.4s; }
-    .service-img:hover { border-color: var(--gold); }
+    .text-content h3 { color: var(--gold); font-size: 24px; text-transform: uppercase; margin-top: 0; letter-spacing: 1px; }
+    .text-content p { line-height: 1.8; font-size: 16px; color: #94a3b8; }
+    
+    .service-img { 
+      width: 100%; 
+      height: 400px; 
+      background: #1a1b22; 
+      border: 1px solid var(--border); 
+      object-fit: cover; 
+      transition: 0.4s; 
+      filter: grayscale(0.5);
+    }
+    .service-img:hover { border-color: var(--gold); filter: grayscale(0); transform: scale(1.02); }
 
-    @media (max-width: 850px) {
+    .service-list { list-style: none; padding: 0; color: #94a3b8; margin-top: 20px; }
+    .service-list li { margin-bottom: 10px; font-size: 14px; display: flex; align-items: center; gap: 10px; }
+    .service-list li span { color: var(--gold); font-weight: 800; }
+
+    footer { text-align: center; padding: 60px 0; border-top: 1px solid var(--border); }
+    footer p { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #555; }
+
+    @media (max-width: 900px) {
       header { height: 80px; }
-      .service-section, .service-section.reverse { grid-template-columns: 1fr; }
-      .service-img { height: 250px; }
-      nav { display: none; }
+      .menu-toggle { display: flex; }
+      nav {
+        position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
+        background: #0a0b10; flex-direction: column; justify-content: center; transition: 0.4s; gap: 40px;
+      }
+      nav.active { left: 0; }
+      .service-section, .service-section.reverse { grid-template-columns: 1fr; gap: 30px; }
+      .service-img { height: 280px; }
     }
   </style>
 </head>
 <body>
+
 <header>
-  <div class="logo-section">
+  <div class="logo-section" onclick="window.location.href='index.html'">
     <div class="logo-text">
       <h1>VAJRACORE <span>ENGINEERING</span></h1>
-      <p>Strength Through Precision</p>
+      <p>Uncompromising Industrial Standards</p>
     </div>
   </div>
-  <nav>
+  <div class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></div>
+  <nav id="nav-list">
     <a href="index.html">Home</a>
     <a href="services.html" style="color: var(--gold);">Services</a>
     <a href="gallery.html">Gallery</a>
+    <a href="career.html">Career</a>
     <a href="contacts.html">Contacts</a>
+    <a href="brochure.pdf" class="btn-brochure" download>Brochure</a>
   </nav>
 </header>
 
 <div class="main-container">
-  <h2>Our <span>Core Expertise</span></h2>
+  <h2 class="section-title">Our <span>Core Expertise</span></h2>
 
   <div class="service-section">
     <div class="text-content">
       <h3>RCC Core Cutting</h3>
       <p>We provide professional diamond core drilling services ranging from 25mm to 500mm diameter. Our methodology ensures vibration-free execution, preserving the structural integrity of your building.</p>
-      <ul style="list-style: none; padding: 0; color: #94a3b8;">
-        <li><span style="color:var(--gold)">✔</span> Precise Wall Sawing</li>
-        <li><span style="color:var(--gold)">✔</span> Deep Hole Stitch Drilling</li>
+      <ul class="service-list">
+        <li><span>✔</span> Precise Wall Sawing & Floor Cutting</li>
+        <li><span>✔</span> Deep Hole Stitch Drilling for Foundations</li>
+        <li><span>✔</span> Heavy RCC Opening for Ducting/Pipes</li>
+        <li><span>✔</span> Dust-Free Wet Cutting Environment</li>
       </ul>
     </div>
     <img src="images/service_core.jpg" class="service-img" alt="Core Cutting">
@@ -72,10 +150,28 @@
   <div class="service-section reverse">
     <div class="text-content">
       <h3>Industrial Chemical Cleaning</h3>
-      <p>Specialized de-scaling services for critical industrial components. We restore the efficiency of heat exchangers, boilers, and cooling towers using eco-safe chemical processes.</p>
+      <p>Specialized de-scaling and cleaning services for critical industrial components. We restore the thermal efficiency of your machinery using customized chemical compositions.</p>
+      <ul class="service-list">
+        <li><span>✔</span> Boiler & Heat Exchanger De-scaling</li>
+        <li><span>✔</span> Cooling Tower Chemical Treatment</li>
+        <li><span>✔</span> Pipeline Rust & Grease Removal</li>
+        <li><span>✔</span> Industrial Tank Neutralization</li>
+      </ul>
     </div>
     <img src="images/service_chem.jpg" class="service-img" alt="Chemical Cleaning">
   </div>
 </div>
+
+<footer><p>&copy; 2026 VajraCore Engineering Services | Precision. Integrity. Innovation.</p></footer>
+
+<script>
+  // Mobile Menu Logic
+  const menuToggle = document.getElementById('mobile-menu');
+  const navList = document.getElementById('nav-list');
+  menuToggle.addEventListener('click', () => { 
+    navList.classList.toggle('active'); 
+  });
+</script>
+
 </body>
 </html>
