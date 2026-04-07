@@ -7,26 +7,26 @@
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { 
-      --gold: #D4AF37; 
-      --white: #ffffff; 
-      --bg: #0a0b10; 
-      --border: rgba(212, 175, 55, 0.15); 
+    :root {
+      --gold: #D4AF37;
+      --white: #ffffff;
+      --bg: #0a0b10;
+      --border: rgba(212, 175, 55, 0.15);
     }
-    
+
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    
-    body { 
-      font-family: 'Plus Jakarta Sans', sans-serif; 
-      background: var(--bg); 
-      color: #cbd5e1; 
-      margin: 0; 
-      padding-top: 100px; 
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: #cbd5e1;
+      margin: 0;
+      padding-top: 100px;
       overflow-x: hidden;
     }
 
-    /* --- NEW HEADER STYLES --- */
+    /* --- HEADER (MATCHES INDEX) --- */
     header {
       background: rgba(10, 11, 16, 0.98);
       backdrop-filter: blur(20px);
@@ -42,7 +42,14 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .logo-section { display: flex; flex-direction: column; cursor: pointer; }
+    .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+    
+    .logo-img {
+      height: 60px;
+      width: auto;
+      object-fit: contain;
+    }
+
     .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 1px; line-height: 1; text-transform: uppercase; color: var(--white); }
     .logo-text h1 span { color: var(--gold); }
 
@@ -67,31 +74,31 @@
 
     /* --- MAIN CONTENT --- */
     .main-container { max-width: 1200px; margin: 0 auto; padding: 60px 6% 100px; }
-    
+
     .page-header { margin-bottom: 50px; }
     .page-header h2 { font-size: 28px; color: var(--white); text-transform: uppercase; letter-spacing: 2px; margin: 0; }
     .page-header h2 span { color: var(--gold); }
     .page-header p { font-size: 14px; color: #64748b; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
 
     /* NO OPENING SECTION */
-    .no-openings-box { 
-      background: rgba(255,255,255,0.02); 
-      border: 1px dashed var(--border); 
-      padding: 60px 40px; 
-      text-align: center; 
+    .no-openings-box {
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed var(--border);
+      padding: 60px 40px;
+      text-align: center;
       margin-top: 40px;
     }
     .no-openings-box h3 { color: var(--white); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
     .no-openings-box p { color: #94a3b8; max-width: 600px; margin: 0 auto 30px; line-height: 1.6; }
-    
-    .btn-resume { 
+
+    .btn-resume {
       display: inline-block;
-      border: 1px solid var(--gold); 
-      padding: 15px 30px; 
-      color: var(--gold); 
-      text-decoration: none; 
-      font-size: 12px; 
-      font-weight: 700; 
+      border: 1px solid var(--gold);
+      padding: 15px 30px;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
       transition: 0.3s;
@@ -102,8 +109,10 @@
     footer p { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #555; }
 
     @media (max-width: 900px) {
-      header { height: 80px; }
+      header { height: 80px; padding: 0 4%; }
       .menu-toggle { display: flex; }
+      .logo-img { height: 45px; }
+      .logo-text h1 { font-size: 16px; }
       nav {
         position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
         background: #0a0b10; flex-direction: column; justify-content: center; transition: 0.4s;
@@ -116,9 +125,10 @@
 
 <header>
   <div class="logo-section" onclick="window.location.href='index.html'">
+    <img src="images/logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
     <div class="logo-text">
       <h1>VAJRACORE <span>ENGINEERING</span></h1>
-      <p>Uncompromising Industrial Standards</p>
+      <p>The Standard of Excellence</p>
     </div>
   </div>
   <div class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></div>
@@ -151,8 +161,8 @@
   // Mobile Menu Logic
   const menuToggle = document.getElementById('mobile-menu');
   const navList = document.getElementById('nav-list');
-  menuToggle.addEventListener('click', () => { 
-    navList.classList.toggle('active'); 
+  menuToggle.addEventListener('click', () => {
+    navList.classList.toggle('active');
   });
 </script>
 

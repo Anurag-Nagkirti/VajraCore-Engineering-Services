@@ -27,23 +27,9 @@
       overflow-x: hidden;
     }
 
-    /* --- LOADER --- */
-    #loader-wrapper {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #0a0b10;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.6s ease-out, visibility 0.6s;
-    }
-    .loader-finished { opacity: 0; visibility: hidden; }
-
     #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; }
 
-    /* --- UPDATED HEADER STYLES --- */
+    /* --- HEADER (MATCHES INDEX) --- */
     header {
       background: rgba(10, 11, 16, 0.98);
       backdrop-filter: blur(20px);
@@ -59,7 +45,14 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .logo-section { display: flex; flex-direction: column; cursor: pointer; }
+    .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+    
+    .logo-img {
+      height: 60px;
+      width: auto;
+      object-fit: contain;
+    }
+
     .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 1px; line-height: 1; text-transform: uppercase; color: var(--white); }
     .logo-text h1 span { color: var(--gold); }
 
@@ -133,8 +126,10 @@
 
     /* --- RESPONSIVE --- */
     @media (max-width: 900px) {
-      header { height: 80px; }
+      header { height: 80px; padding: 0 4%; }
       .menu-toggle { display: flex; }
+      .logo-img { height: 45px; }
+      .logo-text h1 { font-size: 16px; }
       nav {
         position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
         background: var(--bg-dark); flex-direction: column; justify-content: center; transition: 0.4s;
@@ -147,14 +142,14 @@
 </head>
 <body>
 
-<div id="loader-wrapper"><div style="color:var(--gold); font-weight:800; letter-spacing:5px;">VAJRACORE</div></div>
 <canvas id="bgCanvas"></canvas>
 
 <header>
   <div class="logo-section" onclick="window.location.href='index.html'">
+    <img src="images/logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
     <div class="logo-text">
       <h1>VAJRACORE <span>ENGINEERING</span></h1>
-      <p>Uncompromising Industrial Standards</p>
+      <p>The Standard of Excellence</p>
     </div>
   </div>
   <div class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></div>
@@ -227,11 +222,6 @@
   const menuToggle = document.getElementById('mobile-menu');
   const navList = document.getElementById('nav-list');
   menuToggle.addEventListener('click', () => { navList.classList.toggle('active'); });
-
-  // Loader logic
-  window.addEventListener('load', () => {
-    setTimeout(() => { document.getElementById('loader-wrapper').classList.add('loader-finished'); }, 800);
-  });
 
   // Background Particles (Matches Index Styling)
   const canvas = document.getElementById('bgCanvas'); const ctx = canvas.getContext('2d');
