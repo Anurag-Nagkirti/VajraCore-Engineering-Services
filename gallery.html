@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Gallery | VajraCore Engineering</title>
+  <title>Gallery | VajraCore Engineering</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -13,6 +13,7 @@
       --bg-dark: #0a0b10;
       --glass: rgba(255, 255, 255, 0.02);
       --border: rgba(212, 175, 55, 0.15);
+      --insta: #E1306C;
     }
 
     * { box-sizing: border-box; }
@@ -29,7 +30,7 @@
 
     #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; }
 
-    /* --- HEADER (MATCHES INDEX) --- */
+    /* --- HEADER (DO NOT TOUCH) --- */
     header {
       background: rgba(10, 11, 16, 0.98);
       backdrop-filter: blur(20px);
@@ -46,97 +47,124 @@
     }
 
     .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; }
-    
-    .logo-img {
-      height: 60px;
-      width: auto;
-      object-fit: contain;
-    }
-
+    .logo-img { height: 60px; width: auto; object-fit: contain; }
     .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 1px; line-height: 1; text-transform: uppercase; color: var(--white); }
     .logo-text h1 span { color: var(--gold); }
-
-    .logo-text p {
-      margin: 4px 0 0 0;
-      font-size: 7px;
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-weight: 800;
-      opacity: 0.9;
-    }
+    .logo-text p { margin: 4px 0 0 0; font-size: 7px; color: var(--gold); text-transform: uppercase; letter-spacing: 3px; font-weight: 800; opacity: 0.9; }
 
     nav { display: flex; align-items: center; gap: 25px; }
     nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 10px; font-weight: 700; transition: 0.3s; text-transform: uppercase; letter-spacing: 1.5px; }
     nav a:hover { color: var(--gold); }
-    .btn-brochure { border: 1px solid var(--gold); padding: 10px 18px; color: var(--gold) !important; font-size: 10px; border-radius: 2px; }
+    .btn-brochure { border: 1px solid var(--gold); padding: 10px 18px; color: var(--gold) !important; font-size: 10px; border-radius: 2px; text-decoration: none; }
     .btn-brochure:hover { background: var(--gold); color: #000 !important; }
 
     .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
     .menu-toggle span { width: 25px; height: 2px; background: var(--gold); }
 
-    /* --- GALLERY CONTENT --- */
-    .main-container { max-width: 1200px; margin: 0 auto; padding: 60px 6% 100px; }
+    /* --- GALLERY SECTION --- */
+    .main-container { max-width: 1400px; margin: 0 auto; padding: 40px 6% 100px; }
+    
+    .section-title { font-size: 20px; color: var(--white); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
+    .section-title::after { content: ''; flex-grow: 1; height: 1px; background: var(--border); }
 
-    .page-header { margin-bottom: 50px; }
-    .page-header h2 { font-size: 28px; color: var(--white); text-transform: uppercase; letter-spacing: 2px; margin: 0; }
-    .page-header h2 span { color: var(--gold); }
-    .page-header p { font-size: 14px; color: #64748b; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    /* INSTAGRAM CTA */
+    .insta-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed var(--border);
+      text-decoration: none;
+      transition: 0.3s;
+      margin-bottom: 40px;
+    }
+    .insta-cta:hover { background: rgba(225, 48, 108, 0.05); border-color: var(--insta); }
+    .insta-icon { fill: var(--insta); width: 20px; height: 20px; }
+    .insta-text { color: var(--white); font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+    .insta-text span { color: var(--insta); }
 
-    .gallery-grid {
+    #dynamic-gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 20px;
+      gap: 25px;
+      align-items: start;
     }
 
-    .gallery-item {
-      position: relative;
+    .gallery-card {
       background: var(--glass);
       border: 1px solid var(--border);
-      height: 300px;
       overflow: hidden;
-      transition: 0.4s;
+      transition: 0.4s ease;
+      position: relative;
+      cursor: zoom-in;
+      display: none; /* Only shown if image loads successfully */
     }
 
-    .gallery-item img {
+    .gallery-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-5px);
+      background: rgba(212, 175, 55, 0.03);
+    }
+
+    .gallery-card img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: 0.6s transform ease;
-      filter: grayscale(40%);
+      height: auto;
+      display: block;
+      object-fit: contain;
+      background: #000;
     }
 
-    .gallery-item:hover { border-color: var(--gold); }
-    .gallery-item:hover img { transform: scale(1.08); filter: grayscale(0%); }
-
-    .item-overlay {
-      position: absolute;
-      bottom: 0; left: 0; width: 100%;
+    /* --- LIGHTBOX MODAL --- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      justify-content: center;
+      align-items: center;
       padding: 20px;
-      background: linear-gradient(transparent, rgba(10, 11, 16, 0.9));
-      opacity: 0;
-      transition: 0.4s;
     }
-    .gallery-item:hover .item-overlay { opacity: 1; }
-    .item-overlay h4 { margin: 0; color: var(--gold); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-    .item-overlay p { margin: 5px 0 0 0; color: #fff; font-size: 12px; }
 
+    .modal-content {
+      max-width: 90%;
+      max-height: 85vh;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      animation: zoomIn 0.3s ease-out;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 30px; right: 30px;
+      color: var(--white);
+      font-size: 40px;
+      font-weight: 200;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .close-modal:hover { color: var(--gold); }
+
+    /* --- FOOTER --- */
     footer { text-align: center; padding: 60px 0; border-top: 1px solid var(--border); }
     footer p { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #555; }
 
-    /* --- RESPONSIVE --- */
     @media (max-width: 900px) {
       header { height: 80px; padding: 0 4%; }
       .menu-toggle { display: flex; }
-      .logo-img { height: 45px; }
-      .logo-text h1 { font-size: 16px; }
-      nav {
-        position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
-        background: var(--bg-dark); flex-direction: column; justify-content: center; transition: 0.4s;
-      }
+      nav { position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px); background: #0a0b10; flex-direction: column; justify-content: center; transition: 0.4s; }
       nav.active { left: 0; }
-      .gallery-grid { grid-template-columns: 1fr; }
-      .gallery-item { height: 250px; }
+      #dynamic-gallery { grid-template-columns: 1fr; }
+      .close-modal { top: 20px; right: 20px; }
     }
   </style>
 </head>
@@ -144,9 +172,14 @@
 
 <canvas id="bgCanvas"></canvas>
 
+<div id="imageModal" class="modal" onclick="closeModal()">
+  <span class="close-modal">&times;</span>
+  <img class="modal-content" id="modalImg">
+</div>
+
 <header>
   <div class="logo-section" onclick="window.location.href='index.html'">
-    <img src="images/logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+    <img src="images/logo.png" alt="Logo" class="logo-img">
     <div class="logo-text">
       <h1>VAJRACORE <span>ENGINEERING</span></h1>
       <p>The Standard of Excellence</p>
@@ -164,66 +197,76 @@
 </header>
 
 <div class="main-container">
-  <div class="page-header">
-    <h2>Project <span>Showcase</span></h2>
-    <p>Precision execution across industrial sites</p>
-  </div>
+  <h2 class="section-title">Project <span>Gallery</span></h2>
 
-  <div class="gallery-grid">
-    <div class="gallery-item">
-      <img src="images/gallery_core1.jpg" alt="RCC Core Cutting site">
-      <div class="item-overlay">
-        <h4>RCC Core Cutting</h4>
-        <p>Precision drilling for industrial plant foundation.</p>
-      </div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/gallery_mep1.jpg" alt="MEP Installation">
-      <div class="item-overlay">
-        <h4>MEP Infrastructure</h4>
-        <p>Commercial plumbing and fire safety installation.</p>
-      </div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/gallery_chem1.jpg" alt="Chemical Cleaning">
-      <div class="item-overlay">
-        <h4>Chemical Cleaning</h4>
-        <p>Heat exchanger de-scaling and hydro-jetting.</p>
-      </div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/gallery_core2.jpg" alt="Deep hole drilling">
-      <div class="item-overlay">
-        <h4>Deep Hole Drilling</h4>
-        <p>Wall stitch drilling for heavy equipment ducting.</p>
-      </div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/gallery_mep2.jpg" alt="HVAC system">
-      <div class="item-overlay">
-        <h4>Industrial HVAC</h4>
-        <p>Total facility utility management and ducting.</p>
-      </div>
-    </div>
-    <div class="gallery-item">
-      <img src="images/gallery_pipe1.jpg" alt="Piping network">
-      <div class="item-overlay">
-        <h4>Piping Networks</h4>
-        <p>High-pressure industrial water line installation.</p>
-      </div>
-    </div>
-  </div>
+  <a href="https://www.instagram.com/vajracore.engineering/" target="_blank" class="insta-cta">
+    <svg class="insta-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.947.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.947-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    <div class="insta-text">Follow our latest projects on <span>Instagram</span></div>
+  </a>
+  
+  <div id="dynamic-gallery"></div>
 </div>
 
 <footer><p>&copy; 2026 VajraCore Engineering Services | Precision. Integrity. Innovation.</p></footer>
 
 <script>
-  // Menu Toggle logic
+  // Mobile Menu
   const menuToggle = document.getElementById('mobile-menu');
   const navList = document.getElementById('nav-list');
   menuToggle.addEventListener('click', () => { navList.classList.toggle('active'); });
 
-  // Background Particles (Matches Index Styling)
+  // LIGHTBOX LOGIC
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImg');
+
+  function openModal(src) {
+    modal.style.display = "flex";
+    modalImg.src = src;
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+
+  // INDEPENDENT GALLERY LOADING
+  const galleryGrid = document.getElementById('dynamic-gallery');
+  const folder = 'images/gallery/';
+  const extensions = ['png', 'jpg', 'jpeg'];
+  const maxFiles = 20;
+
+  function tryLoadingImage(num, ext) {
+    const src = `${folder}${num}.${ext}`;
+    const img = new Image();
+    
+    img.onload = function() {
+      const card = document.createElement('div');
+      card.className = 'gallery-card';
+      card.style.display = 'block';
+      card.onclick = () => openModal(src);
+      
+      const galleryImg = document.createElement('img');
+      galleryImg.src = src;
+      galleryImg.loading = "lazy";
+      galleryImg.alt = "Industrial Project " + num;
+      
+      card.appendChild(galleryImg);
+      galleryGrid.appendChild(card);
+    };
+    
+    // Start the load attempt
+    img.src = src;
+  }
+
+  // Trigger all 60 independent checks at once
+  extensions.forEach(ext => {
+    for (let i = 1; i <= maxFiles; i++) {
+      tryLoadingImage(i, ext);
+    }
+  });
+
+  // Background Animation
   const canvas = document.getElementById('bgCanvas'); const ctx = canvas.getContext('2d');
   let particles = [];
   function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
