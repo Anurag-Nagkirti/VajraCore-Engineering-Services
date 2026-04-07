@@ -92,7 +92,8 @@
 
     /* --- HERO --- */
     .hero {
-      height: 450px;
+      height: auto;
+      min-height: 200px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -106,8 +107,9 @@
     
     .hero-video {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      max-height: 80vh;
+      object-fit: contain;
       display: block;
     }
 
@@ -117,7 +119,7 @@
     .section-title { font-size: 20px; color: var(--white); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 40px; display: flex; align-items: center; gap: 15px; }
     .section-title::after { content: ''; flex-grow: 1; height: 1px; background: var(--border); }
 
-    /* --- UPDATED WORK SHOWCASE WITH 3 GIFS --- */
+    /* --- RESPONSIVE WORK SHOWCASE --- */
     .work-showcase-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -126,18 +128,19 @@
     }
     .showcase-item {
       width: 100%;
-      aspect-ratio: 16 / 9;
       background: var(--glass);
       border: 1px solid var(--border);
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
+      aspect-ratio: 16 / 9; /* Maintains video proportions */
     }
-    .showcase-gif {
+    .showcase-video {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain; /* Prevents cropping on mobile */
+      display: block;
     }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 60px; }
@@ -214,13 +217,19 @@
   <h2 class="section-title">Work <span>Showcase</span></h2>
   <div class="work-showcase-grid">
     <div class="showcase-item">
-        <img src="images/show1.gif" alt="Work 1" class="showcase-gif" onerror="this.style.display='none'">
+      <video autoplay loop muted playsinline class="showcase-video">
+        <source src="images/show1.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="showcase-item">
-        <img src="images/show2.gif" alt="Work 2" class="showcase-gif" onerror="this.style.display='none'">
+      <video autoplay loop muted playsinline class="showcase-video">
+        <source src="images/show2.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="showcase-item">
-        <img src="images/show3.gif" alt="Work 3" class="showcase-gif" onerror="this.style.display='none'">
+      <video autoplay loop muted playsinline class="showcase-video">
+        <source src="images/show3.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
 
