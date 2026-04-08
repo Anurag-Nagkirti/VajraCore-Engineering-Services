@@ -67,17 +67,34 @@
     .contact-method h4 { color: var(--gold); text-transform: uppercase; font-size: 12px; margin-bottom: 5px; letter-spacing: 1px; }
     .contact-method p { margin: 0; color: #fff; font-size: 16px; }
 
+    /* Social Links Style */
+    .social-connect { display: flex; gap: 20px; margin-top: 25px; }
+    .social-connect a { 
+        width: 45px; height: 45px; border: 1px solid var(--border); 
+        display: flex; align-items: center; justify-content: center; 
+        color: var(--gold); font-size: 20px; transition: 0.3s; border-radius: 2px;
+        text-decoration: none; background: rgba(255,255,255,0.02);
+    }
+    .social-connect a:hover { background: var(--gold); color: #000; border-color: var(--gold); transform: translateY(-3px); }
+
     /* --- ENQUIRY FORM --- */
     .contact-form { background: var(--glass); padding: 40px; border: 1px solid var(--border); position: relative; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
     label { display: block; color: var(--gold); font-size: 10px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; letter-spacing: 1px; }
+    
     input, select, textarea {
       width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
       padding: 12px; color: #fff; font-family: inherit; border-radius: 2px; outline: none; transition: 0.3s;
     }
+    
+    /* FIX: Dropdown visibility */
+    select option {
+      background-color: #1a1b22; /* Dark background for the options */
+      color: #ffffff;
+    }
+
     input:focus, select:focus, textarea:focus { border-color: var(--gold); background: rgba(255,255,255,0.06); }
     
-    /* Bot Trap */
     .hp-field { display: none; visibility: hidden; }
 
     button {
@@ -141,17 +158,25 @@
       <p>+91 9561419207</p>
     </div>
     <div class="contact-method">
-      <h4>Technical Email</h4>
-      <p>projects.vajracore@gmail.com</p>
+        <h4>Technical Email</h4>
+        <p>projects.vajracore@gmail.com</p>
     </div>
-    <p style="font-size: 12px; line-height: 1.8; color: #64748b;">
+
+    <div class="contact-method">
+        <h4>Connect With Us</h4>
+        <div class="social-connect">
+            <a href="https://instagram.com/your_handle" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com/company/your_handle" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </div>
+
+    <p style="font-size: 12px; line-height: 1.8; color: #64748b; margin-top: 40px;">
       Our engineering team typically responds to technical enquiries within 24 business hours.
     </p>
   </div>
 
   <div class="contact-form">
     <form id="enquiryForm">
-      <!-- Bot Trap -->
       <input type="text" class="hp-field" id="website_check">
       
       <div class="form-grid">
@@ -190,33 +215,27 @@
 <footer><p>© 2026 VajraCore Engineering Services | Pune, Maharashtra</p></footer>
 
 <script>
-  // Mobile Nav
   document.getElementById('mobile-menu').addEventListener('click', () => {
     document.getElementById('nav-list').classList.toggle('active');
   });
 
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdYyFUWbUQ_9e49RmNJoqjUHXtjQBZfEE29Nl2ovUKPeMBTRE6lh_ZuLW9ktMI2h8r/exec'; // PASTE YOUR URL HERE
+  const SCRIPT_URL = 'YOUR_WEB_APP_URL_HERE'; 
   const startTime = Date.now();
 
   document.getElementById('enquiryForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
     const btn = document.getElementById('submitBtn');
     const status = document.getElementById('statusMsg');
     
-    // 1. Data Retrieval
     const name = document.getElementById('fullName').value.trim();
     const email = document.getElementById('email').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const loc = document.getElementById('loc').value.trim();
     const service = document.getElementById('service').value;
-    const company = document.getElementById('company').value.trim();
-    const details = document.getElementById('details').value.trim();
     const botCheck = document.getElementById('website_check').value;
 
-    // 2. Validation
     status.style.display = "block";
-    status.style.color = "#f87171"; // Error Red
+    status.style.color = "#f87171";
 
     if (botCheck !== "" || (Date.now() - startTime) < 2000) {
       status.innerText = "System flagged as automated. Please try again.";
@@ -228,21 +247,8 @@
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      status.innerText = "Please provide a valid email address.";
-      return;
-    }
-
-    if (phone.length < 10) {
-      status.innerText = "Please enter a valid 10-digit mobile number.";
-      return;
-    }
-
-    // 3. Generate VCE ID
     const uid = "VCE-" + Math.floor(100000 + Math.random() * 900000);
 
-    // 4. Submit State
     btn.disabled = true;
     btn.innerText = "Submitting Enquiry...";
     status.style.color = "var(--gold)";
@@ -253,15 +259,14 @@
       date: new Date().toLocaleDateString(),
       time: new Date().toLocaleTimeString(),
       name: name,
-      company: company || "N/A",
+      company: document.getElementById('company').value.trim() || "N/A",
       email: email,
       phone: phone,
       location: loc,
       service: service,
-      details: details || "No specific details provided."
+      details: document.getElementById('details').value.trim() || "No specific details provided."
     };
 
-    // 5. POST to Sheet
     fetch(SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
@@ -269,7 +274,6 @@
       body: JSON.stringify(formData)
     })
     .then(() => {
-      // SUCCESS UI
       status.style.color = "#4ade80";
       status.innerHTML = `
         <i class="fas fa-check-circle" style="font-size:22px; margin-bottom:12px;"></i><br>
@@ -287,13 +291,12 @@
     })
     .catch(() => {
       status.style.color = "#f87171";
-      status.innerText = "Network failure. Please email us directly at projects.vajracore@gmail.com";
+      status.innerText = "Network failure. Please email us directly.";
       btn.disabled = false;
       btn.innerText = "Retry Submission";
     });
   });
 
-  // Background Particles
   const canvas = document.getElementById('bgCanvas'); const ctx = canvas.getContext('2d');
   function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
   window.addEventListener('resize', resize); resize();
