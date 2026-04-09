@@ -29,7 +29,7 @@
 
     #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; }
 
-    /* --- HEADER (DO NOT TOUCH) --- */
+    /* --- HEADER (MATCHED TO INDEX.HTML) --- */
     header {
       background: rgba(10, 11, 16, 0.98);
       backdrop-filter: blur(20px);
@@ -62,7 +62,7 @@
 
     /* --- SERVICES CONTENT --- */
     .main-container { max-width: 1200px; margin: 0 auto; padding: 40px 6% 100px; }
-    
+
     .section-title { font-size: 20px; color: var(--white); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 40px; display: flex; align-items: center; gap: 15px; }
     .section-title::after { content: ''; flex-grow: 1; height: 1px; background: var(--border); }
 
@@ -82,7 +82,7 @@
       border: 1px solid var(--border);
       transition: 0.3s;
     }
-    .feature-item:hover { border-color: var(--gold); transform: translateY(-3px); }
+    .feature-item:hover { border-color: var(--gold); transform: translateY(-3px); background: rgba(212, 175, 55, 0.03); }
     .feature-item strong { color: var(--white); display: block; margin-bottom: 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
     .feature-item p { font-size: 13px; line-height: 1.5; color: #94a3b8; margin: 0; }
 
@@ -109,10 +109,26 @@
     footer { text-align: center; padding: 60px 0; border-top: 1px solid var(--border); }
     footer p { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #555; }
 
+    /* --- MOBILE RESPONSIVENESS (MATCHED TO INDEX.HTML) --- */
     @media (max-width: 768px) {
       header { height: 80px; padding: 0 4%; }
+      body { padding-top: 80px; }
       .menu-toggle { display: flex; }
-      nav { position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px); background: #0a0b10; flex-direction: column; justify-content: center; transition: 0.4s; z-index: 1001;}
+      .logo-img { height: 45px; }
+      .logo-text h1 { font-size: 16px; }
+      
+      nav { 
+        position: fixed; 
+        top: 80px; 
+        left: -100%; 
+        width: 100%; 
+        height: calc(100vh - 80px); 
+        background: #0a0b10; 
+        flex-direction: column; 
+        justify-content: center; 
+        transition: 0.4s; 
+        z-index: 1001;
+      }
       nav.active { left: 0; }
       .advantage-box { padding: 25px; }
     }
@@ -144,7 +160,6 @@
 <div class="main-container">
   <h2 class="section-title">Our <span>Services</span></h2>
 
-  <!-- Service A -->
   <div class="service-block">
     <h2>A. RCC Core Cutting & Specialized Openings</h2>
     <p>We provide precise, vibration-free structural penetrations using advanced diamond-core technology. This is essential for maintaining structural integrity during MEP fit-outs.</p>
@@ -164,7 +179,6 @@
     </div>
   </div>
 
-  <!-- Service B -->
   <div class="service-block">
     <h2>B. Mechanical (MS & SS) Fabrication Works</h2>
     <p>Structural and architectural metalwork designed to meet heavy-duty construction specifications.</p>
@@ -184,7 +198,6 @@
     </div>
   </div>
 
-  <!-- Service C -->
   <div class="service-block">
     <h2>C. HVAC Systems & Air Distribution</h2>
     <p>End-to-end HVAC contracting from technical design to final commissioning.</p>
@@ -204,7 +217,6 @@
     </div>
   </div>
 
-  <!-- Service D -->
   <div class="service-block">
     <h2>D. Post-Construction Chemical & Deep Cleaning</h2>
     <p>Specialized "Handover-Ready" cleaning services to transition a construction site into a live facility.</p>
@@ -224,7 +236,6 @@
     </div>
   </div>
 
-  <!-- Service E -->
   <div class="service-block">
     <h2>E. Integrated MEP (Electrical & Plumbing)</h2>
     <p>Comprehensive internal and external utility works for residential and industrial projects.</p>
@@ -240,7 +251,6 @@
     </div>
   </div>
 
-  <!-- Advantage Block -->
   <div class="advantage-box">
     <h2>The VajraCore Advantage</h2>
     <div class="advantage-list">
@@ -270,12 +280,12 @@
 <footer><p>&copy; 2026 VajraCore Engineering Services | Precision. Integrity. Innovation.</p></footer>
 
 <script>
-  // Mobile Menu
+  // Mobile Menu (Matched Logic)
   const menuToggle = document.getElementById('mobile-menu');
   const navList = document.getElementById('nav-list');
   menuToggle.addEventListener('click', () => { navList.classList.toggle('active'); });
 
-  // IMAGE LOADING LOGIC
+  // IMAGE LOADING LOGIC (Untouched Data Logic)
   const servicesGrid = document.getElementById('services-gallery');
   const folder = 'images/services/';
   const extensions = ['png', 'jpg', 'jpeg'];
@@ -304,7 +314,7 @@
     }
   });
 
-  // Background Animation
+  // Background Animation (Matched Logic)
   const canvas = document.getElementById('bgCanvas'); const ctx = canvas.getContext('2d');
   let particles = [];
   function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
