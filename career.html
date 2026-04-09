@@ -26,7 +26,7 @@
       overflow-x: hidden;
     }
 
-    /* --- HEADER (MATCHES INDEX) --- */
+    /* --- HEADER (MATCHED TO INDEX.HTML) --- */
     header {
       background: rgba(10, 11, 16, 0.98);
       backdrop-filter: blur(20px);
@@ -43,34 +43,19 @@
     }
 
     .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; }
-    
-    .logo-img {
-      height: 60px;
-      width: auto;
-      object-fit: contain;
-    }
-
+    .logo-img { height: 60px; width: auto; object-fit: contain; }
     .logo-text h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 1px; line-height: 1; text-transform: uppercase; color: var(--white); }
     .logo-text h1 span { color: var(--gold); }
-
-    .logo-text p {
-      margin: 4px 0 0 0;
-      font-size: 7px;
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-weight: 800;
-      opacity: 0.9;
-    }
+    .logo-text p { margin: 4px 0 0 0; font-size: 7px; color: var(--gold); text-transform: uppercase; letter-spacing: 3px; font-weight: 800; opacity: 0.9; }
 
     nav { display: flex; align-items: center; gap: 25px; }
     nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 10px; font-weight: 700; transition: 0.3s; text-transform: uppercase; letter-spacing: 1.5px; }
     nav a:hover { color: var(--gold); }
-    .btn-brochure { border: 1px solid var(--gold); padding: 10px 18px; color: var(--gold) !important; font-size: 10px; border-radius: 2px; }
+    .btn-brochure { border: 1px solid var(--gold); padding: 10px 18px; color: var(--gold) !important; font-size: 10px; border-radius: 2px; text-decoration: none; }
     .btn-brochure:hover { background: var(--gold); color: #000 !important; }
 
-    .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-    .menu-toggle span { width: 25px; height: 2px; background: var(--gold); }
+    .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; transition: 0.3s; }
+    .menu-toggle span { width: 25px; height: 2px; background: var(--gold); transition: 0.3s; }
 
     /* --- MAIN CONTENT --- */
     .main-container { max-width: 1200px; margin: 0 auto; padding: 60px 6% 100px; }
@@ -97,27 +82,44 @@
       padding: 15px 30px;
       color: var(--gold);
       text-decoration: none;
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 11px;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
       transition: 0.3s;
+      border-radius: 2px;
     }
-    .btn-resume:hover { background: var(--gold); color: #000; }
+    .btn-resume:hover { background: var(--gold); color: #000; transform: translateY(-3px); }
 
     footer { text-align: center; padding: 60px 0; border-top: 1px solid var(--border); }
     footer p { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #555; }
 
+    /* --- MOBILE RESPONSIVENESS (MATCHED TO INDEX.HTML) --- */
     @media (max-width: 900px) {
       header { height: 80px; padding: 0 4%; }
+      body { padding-top: 80px; }
       .menu-toggle { display: flex; }
       .logo-img { height: 45px; }
       .logo-text h1 { font-size: 16px; }
+      
       nav {
-        position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
-        background: #0a0b10; flex-direction: column; justify-content: center; transition: 0.4s;
+        position: fixed; 
+        top: 80px; 
+        left: -100%; 
+        width: 100%; 
+        height: calc(100vh - 80px);
+        background: #0a0b10; 
+        flex-direction: column; 
+        justify-content: center; 
+        gap: 30px;
+        transition: 0.4s ease-in-out;
+        z-index: 1001;
       }
       nav.active { left: 0; }
+      nav a { font-size: 14px; }
+      
+      .page-header h2 { font-size: 22px; }
+      .no-openings-box { padding: 40px 20px; }
     }
   </style>
 </head>
@@ -125,13 +127,15 @@
 
 <header>
   <div class="logo-section" onclick="window.location.href='index.html'">
-    <img src="images/logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+    <img src="images/logo.png" alt="Logo" class="logo-img">
     <div class="logo-text">
       <h1>VAJRACORE <span>ENGINEERING</span></h1>
       <p>The Standard of Excellence</p>
     </div>
   </div>
-  <div class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></div>
+  <div class="menu-toggle" id="mobile-menu">
+    <span></span><span></span><span></span>
+  </div>
   <nav id="nav-list">
     <a href="index.html">Home</a>
     <a href="services.html">Services</a>
@@ -145,24 +149,47 @@
 <div class="main-container">
   <div class="page-header">
     <h2>Join Our <span>Technical Team</span></h2>
-    <p>Build your career with Maharashtra's leading industrial service provider.</p>
+    <p>Build your career with a leading industrial service provider.</p>
   </div>
 
   <div class="no-openings-box">
     <h3>No Current Openings</h3>
-    <p>We are not actively hiring at this moment. However, we are always looking for exceptional talent to join our talent pool for future industrial projects.</p>
-    <a href="mailto:careers@vajracore.com" class="btn-resume">Drop Your Resume</a>
+    <p>We are not actively hiring at this moment. However, we are always looking for exceptional talent to join our talent pool for future industrial projects. Please share your credentials via email.</p>
+    
+    <a href="mailto:projects.vajracore@gmail.com?subject=Career Enquiry - [Your Name]" class="btn-resume">
+      Share CV via Email
+    </a>
   </div>
 </div>
 
 <footer><p>&copy; 2026 VajraCore Engineering Services | Precision. Integrity. Innovation.</p></footer>
 
 <script>
-  // Mobile Menu Logic
+  // Mobile Menu Logic (Matched to Index.html)
   const menuToggle = document.getElementById('mobile-menu');
   const navList = document.getElementById('nav-list');
+  
   menuToggle.addEventListener('click', () => {
     navList.classList.toggle('active');
+    
+    // Hamburger to X Animation
+    const spans = menuToggle.querySelectorAll('span');
+    if (navList.classList.contains('active')) {
+      spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    } else {
+      spans[0].style.transform = 'none';
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = 'none';
+    }
+  });
+
+  // Close menu when clicking a link (optional but recommended for UX)
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      navList.classList.remove('active');
+    });
   });
 </script>
 
